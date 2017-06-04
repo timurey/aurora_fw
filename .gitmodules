@@ -13,3 +13,6 @@
 [submodule "lib/jsmn-extras"]
 	path = lib/jsmn-extras
 	url = git://github.com/timurey/jsmn-extras
+[submodule "lib/stm32cube_f2"]
+	path = lib/stm32cube_f2
+	url = https://github.com/timurey/stm32cube_f2

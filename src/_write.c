@@ -12,7 +12,7 @@
 #include "usbd_desc.h"
 #include "usbd_cdc.h"
 #include "usbd_cdc_if.h"
-#include "diag/Trace.h"
+//#include "diag/Trace.h"
 extern USBD_HandleTypeDef  hUsbDeviceFS;
 // ----------------------------------------------------------------------------
 
