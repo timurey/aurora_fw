@@ -39,7 +39,6 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN 0 */
-#include "bsp_driver_sd.h"
 
 #define SD_DMAx_Tx_CHANNEL                DMA_CHANNEL_4
 #define SD_DMAx_Rx_CHANNEL                DMA_CHANNEL_4
@@ -51,7 +50,6 @@ DMA_HandleTypeDef dmaTxHandle;
 /* USER CODE END 0 */
 
 SD_HandleTypeDef hsd;
-HAL_SD_CardInfoTypedef SDCardInfo;
 
 /* SDIO init function */
 

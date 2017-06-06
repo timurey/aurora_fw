@@ -31,7 +31,6 @@
 #define APP_IPV6_PRIMARY_DNS "2001:4860:4860::8888"
 #define APP_IPV6_SECONDARY_DNS "2001:4860:4860::8844"
 
-DnsSdService DnsSdServices[1];
 
 
 error_t networkConfigure (void);

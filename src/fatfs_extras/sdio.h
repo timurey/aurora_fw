@@ -41,9 +41,10 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f2xx_hal.h"
+#include "bsp_driver_sd.h"
 
 extern SD_HandleTypeDef hsd;
-extern HAL_SD_CardInfoTypedef SDCardInfo;
+// extern HAL_SD_CardInfoTypedef SDCardInfo;
 
 void MX_SDIO_SD_Init(void);
 

@@ -8,7 +8,7 @@
 #ifndef STUFF_CONFIGS_H_
 #define STUFF_CONFIGS_H_
 #include "error.h"
-#include "../jsmn/jsmn_extras.h"
+#include "jsmn_extras.h"
 #define CONFIG_JSMN_NUM_TOKENS 256
 
 typedef enum parserFlags{

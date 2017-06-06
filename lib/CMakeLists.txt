@@ -4,20 +4,6 @@
 
 
 
-###################
-# NeoGPS
-###################
-
-#SET(NEOGPS_SRC
-#	NeoGPS/DMS.cpp
-#	NeoGPS/GPSTime.cpp
-#	NeoGPS/Location.cpp
-#	NeoGPS/NeoTime.cpp
-#	NeoGPS/NMEAGPS.cpp
-#)
-#ADD_LIBRARY(NeoGPS STATIC ${NEOGPS_SRC})
-
-
 
 ###################
 # FreeRTOS
@@ -30,21 +16,21 @@ SET(FREERTOS_SRC
 	${FREERTOS_SRC_DIR}/croutine.c
 	${FREERTOS_SRC_DIR}/event_groups.c
 
-	${FREERTOS_SRC_DIR}/include/FreeRTOS.h
-	${FREERTOS_SRC_DIR}/include/StackMacros.h
-	${FREERTOS_SRC_DIR}/include/croutine.h
-	${FREERTOS_SRC_DIR}/include/deprecated_definitions.h
-	${FREERTOS_SRC_DIR}/include/event_groups.h
-	${FREERTOS_SRC_DIR}/include/list.h
-	${FREERTOS_SRC_DIR}/include/mpu_prototypes.h
-	${FREERTOS_SRC_DIR}/include/mpu_wrappers.h
-	${FREERTOS_SRC_DIR}/include/portable.h
-	${FREERTOS_SRC_DIR}/include/projdefs.h
-	${FREERTOS_SRC_DIR}/include/queue.h
-	${FREERTOS_SRC_DIR}/include/semphr.h
-	${FREERTOS_SRC_DIR}/include/stdint.readme
-	${FREERTOS_SRC_DIR}/include/task.h
-	${FREERTOS_SRC_DIR}/include/timers.h
+	# ${FREERTOS_SRC_DIR}/include/FreeRTOS.h
+	# ${FREERTOS_SRC_DIR}/include/StackMacros.h
+	# ${FREERTOS_SRC_DIR}/include/croutine.h
+	# ${FREERTOS_SRC_DIR}/include/deprecated_definitions.h
+	# ${FREERTOS_SRC_DIR}/include/event_groups.h
+	# ${FREERTOS_SRC_DIR}/include/list.h
+	# ${FREERTOS_SRC_DIR}/include/mpu_prototypes.h
+	# ${FREERTOS_SRC_DIR}/include/mpu_wrappers.h
+	# ${FREERTOS_SRC_DIR}/include/portable.h
+	# ${FREERTOS_SRC_DIR}/include/projdefs.h
+	# ${FREERTOS_SRC_DIR}/include/queue.h
+	# ${FREERTOS_SRC_DIR}/include/semphr.h
+	# ${FREERTOS_SRC_DIR}/include/stdint.readme
+	# ${FREERTOS_SRC_DIR}/include/task.h
+	# ${FREERTOS_SRC_DIR}/include/timers.h
 	${FREERTOS_SRC_DIR}/list.c
 
 	${FREERTOS_SRC_DIR}/${FREERTOS_PORT_DIR}/port.c
@@ -54,6 +40,7 @@ SET(FREERTOS_SRC
 
 	${FREERTOS_SRC_DIR}/tasks.c
 	${FREERTOS_SRC_DIR}/timers.c
+	${FREERTOS_SRC_DIR}/portable/MemMang/heap_4.c
 )
 ADD_LIBRARY(FreeRTOS STATIC ${FREERTOS_SRC})
 
@@ -102,6 +89,8 @@ target_link_libraries (USBLib LINK_PUBLIC STM32Cube_f2)
 SET(STM32CUBE_F2_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/stm32cube_f2)
 
 SET(STM32CUBE_F2_SRC
+	${STM32CUBE_F2_SRC_DIR}/CMSIS/Device/ST/STM32F2xx/Source/Templates/gcc/startup_stm32f205xx.s
+	${STM32CUBE_F2_SRC_DIR}/CMSIS/Device/ST/STM32F2xx/Source/Templates/system_stm32f2xx.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_adc.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_adc_ex.c
@@ -213,11 +202,244 @@ ADD_LIBRARY(Common STATIC ${COMMON_SRC})
 
 target_link_libraries (Common LINK_PUBLIC FreeRTOS)
 target_link_libraries (Common LINK_PUBLIC Fatfs)
+target_link_libraries (Common LINK_PUBLIC STM32Cube_f2)
 
 TARGET_INCLUDE_DIRECTORIES(Common PUBLIC
 	${COMMON_SRC_DIR}
 )
 
+###################
+# CycloneTCP
+###################
+
+SET(CYCLONETCP_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CycloneTCP)
+
+SET(CYCLONETCP_SRC
+#Core
+	${CYCLONETCP_SRC_DIR}/core/bsd_socket.c
+	${CYCLONETCP_SRC_DIR}/core/ethernet.c
+	${CYCLONETCP_SRC_DIR}/core/ip.c
+	${CYCLONETCP_SRC_DIR}/core/net.c
+	${CYCLONETCP_SRC_DIR}/core/net_mem.c
+	${CYCLONETCP_SRC_DIR}/core/nic.c
+	${CYCLONETCP_SRC_DIR}/core/ping.c
+	${CYCLONETCP_SRC_DIR}/core/raw_socket.c
+	${CYCLONETCP_SRC_DIR}/core/socket.c
+	${CYCLONETCP_SRC_DIR}/core/tcp.c
+	${CYCLONETCP_SRC_DIR}/core/tcp_fsm.c
+	${CYCLONETCP_SRC_DIR}/core/tcp_misc.c
+	${CYCLONETCP_SRC_DIR}/core/tcp_timer.c
+	${CYCLONETCP_SRC_DIR}/core/udp.c
+#DHCP
+	${CYCLONETCP_SRC_DIR}/dhcp/dhcp_client.c
+	${CYCLONETCP_SRC_DIR}/dhcp/dhcp_common.c
+	${CYCLONETCP_SRC_DIR}/dhcp/dhcp_debug.c
+	${CYCLONETCP_SRC_DIR}/dhcp/dhcp_server.c
+#dhcpv6
+	${CYCLONETCP_SRC_DIR}/dhcpv6/dhcpv6_client.c
+	${CYCLONETCP_SRC_DIR}/dhcpv6/dhcpv6_common.c
+	${CYCLONETCP_SRC_DIR}/dhcpv6/dhcpv6_debug.c
+	${CYCLONETCP_SRC_DIR}/dhcpv6/dhcpv6_relay.c
+#dns
+	${CYCLONETCP_SRC_DIR}/dns/dns_cache.c
+	${CYCLONETCP_SRC_DIR}/dns/dns_client.c
+	${CYCLONETCP_SRC_DIR}/dns/dns_common.c
+	${CYCLONETCP_SRC_DIR}/dns/dns_debug.c
+#dns_sd
+	${CYCLONETCP_SRC_DIR}/dns_sd/dns_sd.c
+#drivers
+	# ${CYCLONETCP_SRC_DIR}/drivers/a2fxxxm3_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/am335x_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/aps3_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/ar8031.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/avr32_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/bcm43362_driver.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/dm9000.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/dm9161.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/dp83620.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/dp83822.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/dp83848.c
+	${CYCLONETCP_SRC_DIR}/drivers/enc28j60.c
+	${CYCLONETCP_SRC_DIR}/drivers/ext_int_driver.c
+	${CYCLONETCP_SRC_DIR}/drivers/spi_driver.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/enc624j600.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/f28m35x_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/fm4_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/ksz8031.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/ksz8041.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/ksz8051.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/ksz8061.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/ksz8081.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/ksz8091.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/ksz8721.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/ksz8851.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/ksz8873.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/ksz8895.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/ksz9031.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/lan8700.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/lan8710.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/lan8720.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/lan8740.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/lan8742.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/lan9303.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/lm3s_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/lpc175x_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/lpc176x_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/lpc178x_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/lpc18xx_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/lpc23xx_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/lpc43xx_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/m2sxxx_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/mcf5225x_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/mk6x_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/mk7x_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/mkv5x_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/mrf24wg_driver.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/omapl138_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/pcap_driver.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/pic32mx_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/pic32mz_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/rtl8211.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/rx63n_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/rza1_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/s7g2_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/sam3x_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/sam4e_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/sam7x_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/sam9263_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/sama5d2_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/sama5d3_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/sama5d3_gigabit_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/same70_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/samv71_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/st802rt1a.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/stm32f107_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/stm32f2x7_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/stm32f4x7_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/stm32f4x9_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/stm32f7xx_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/stm32h7xx_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/str912_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/tm4c129_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/upd60611.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/wilc1000_driver.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/winc1500_driver.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/xmc4500_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/xmc4700_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/xmc4800_eth.c
+	# ${CYCLONETCP_SRC_DIR}/drivers/zynq7000_eth.c
+#ftp client
+	# ${CYCLONETCP_SRC_DIR}/ftp/ftp_client.c
+#ftp server
+	${CYCLONETCP_SRC_DIR}/ftp/ftp_server.c
+	${CYCLONETCP_SRC_DIR}/ftp/ftp_server_commands.c
+	${CYCLONETCP_SRC_DIR}/ftp/ftp_server_events.c
+	${CYCLONETCP_SRC_DIR}/ftp/ftp_server_misc.c
+#http server
+	${CYCLONETCP_SRC_DIR}/http/http_server.c
+	${CYCLONETCP_SRC_DIR}/http/http_server_auth.c
+	${CYCLONETCP_SRC_DIR}/http/http_server_misc.c
+	${CYCLONETCP_SRC_DIR}/http/mime.c
+	${CYCLONETCP_SRC_DIR}/http/ssi.c
+#icecast
+	# ${CYCLONETCP_SRC_DIR}/icecast/icecast_client.c
+#ipv4
+	${CYCLONETCP_SRC_DIR}/ipv4/arp.c
+	${CYCLONETCP_SRC_DIR}/ipv4/auto_ip.c
+	${CYCLONETCP_SRC_DIR}/ipv4/icmp.c
+	${CYCLONETCP_SRC_DIR}/ipv4/igmp.c
+	${CYCLONETCP_SRC_DIR}/ipv4/ipv4.c
+	${CYCLONETCP_SRC_DIR}/ipv4/ipv4_frag.c
+#ipv6
+	# ${CYCLONETCP_SRC_DIR}/ipv6/icmpv6.c
+	# ${CYCLONETCP_SRC_DIR}/ipv6/ipv6.c
+	# ${CYCLONETCP_SRC_DIR}/ipv6/ipv6_frag.c
+	# ${CYCLONETCP_SRC_DIR}/ipv6/ipv6_misc.c
+	# ${CYCLONETCP_SRC_DIR}/ipv6/ipv6_pmtu.c
+	# ${CYCLONETCP_SRC_DIR}/ipv6/ipv6_routing.c
+	# ${CYCLONETCP_SRC_DIR}/ipv6/mld.c
+	# ${CYCLONETCP_SRC_DIR}/ipv6/ndp.c
+	# ${CYCLONETCP_SRC_DIR}/ipv6/ndp_cache.c
+	# ${CYCLONETCP_SRC_DIR}/ipv6/ndp_misc.c
+	# ${CYCLONETCP_SRC_DIR}/ipv6/ndp_router_adv.c
+	# ${CYCLONETCP_SRC_DIR}/ipv6/slaac.c
+#mdns
+	${CYCLONETCP_SRC_DIR}/mdns/mdns_client.c
+	${CYCLONETCP_SRC_DIR}/mdns/mdns_common.c
+	${CYCLONETCP_SRC_DIR}/mdns/mdns_responder.c
+#mibs
+	# ${CYCLONETCP_SRC_DIR}/mibs/if_mib_impl.c
+	# ${CYCLONETCP_SRC_DIR}/mibs/if_mib_module.c
+	# ${CYCLONETCP_SRC_DIR}/mibs/ip_mib_impl.c
+	# ${CYCLONETCP_SRC_DIR}/mibs/ip_mib_module.c
+	# ${CYCLONETCP_SRC_DIR}/mibs/mib2_impl.c
+	# ${CYCLONETCP_SRC_DIR}/mibs/mib2_module.c
+	# ${CYCLONETCP_SRC_DIR}/mibs/mib_common.c
+	# ${CYCLONETCP_SRC_DIR}/mibs/snmp_mib_impl.c
+	# ${CYCLONETCP_SRC_DIR}/mibs/snmp_mib_module.c
+	# ${CYCLONETCP_SRC_DIR}/mibs/snmp_usm_mib_impl.c
+	# ${CYCLONETCP_SRC_DIR}/mibs/snmp_usm_mib_module.c
+	# ${CYCLONETCP_SRC_DIR}/mibs/tcp_mib_impl.c
+	# ${CYCLONETCP_SRC_DIR}/mibs/tcp_mib_module.c
+	# ${CYCLONETCP_SRC_DIR}/mibs/udp_mib_impl.c
+	# ${CYCLONETCP_SRC_DIR}/mibs/udp_mib_module.c
+#mqtt
+	# ${CYCLONETCP_SRC_DIR}/mqtt/mqtt_client.c
+	# ${CYCLONETCP_SRC_DIR}/mqtt/mqtt_client_misc.c
+	# ${CYCLONETCP_SRC_DIR}/mqtt/mqtt_client_packet.c
+	# ${CYCLONETCP_SRC_DIR}/mqtt/mqtt_client_transport.c
+#netbios
+	 ${CYCLONETCP_SRC_DIR}/netbios/nbns_client.c
+	 ${CYCLONETCP_SRC_DIR}/netbios/nbns_common.c
+	 ${CYCLONETCP_SRC_DIR}/netbios/nbns_responder.c
+#ppp
+	# ${CYCLONETCP_SRC_DIR}/ppp/chap.c
+	# ${CYCLONETCP_SRC_DIR}/ppp/ipcp.c
+	# ${CYCLONETCP_SRC_DIR}/ppp/ipv6cp.c
+	# ${CYCLONETCP_SRC_DIR}/ppp/lcp.c
+	# ${CYCLONETCP_SRC_DIR}/ppp/pap.c
+	# ${CYCLONETCP_SRC_DIR}/ppp/ppp.c
+	# ${CYCLONETCP_SRC_DIR}/ppp/ppp_debug.c
+	# ${CYCLONETCP_SRC_DIR}/ppp/ppp_fsm.c
+	# ${CYCLONETCP_SRC_DIR}/ppp/ppp_hdlc.c
+	# ${CYCLONETCP_SRC_DIR}/ppp/ppp_misc.c
+#smtp client
+	# ${CYCLONETCP_SRC_DIR}/smtp/smtp_client.c
+#snmp agent
+	# ${CYCLONETCP_SRC_DIR}/snmp/snmp_agent.c
+	# ${CYCLONETCP_SRC_DIR}/snmp/snmp_agent_dispatch.c
+	# ${CYCLONETCP_SRC_DIR}/snmp/snmp_agent_misc.c
+	# ${CYCLONETCP_SRC_DIR}/snmp/snmp_agent_pdu.c
+	# ${CYCLONETCP_SRC_DIR}/snmp/snmp_common.c
+	# ${CYCLONETCP_SRC_DIR}/snmp/snmp_usm.c
+#sntp client
+	${CYCLONETCP_SRC_DIR}/sntp/sntp_client.c
+#std_services
+	# ${CYCLONETCP_SRC_DIR}/std_services/chargen.c
+	# ${CYCLONETCP_SRC_DIR}/std_services/daytime.c
+	# ${CYCLONETCP_SRC_DIR}/std_services/discard.c
+	# ${CYCLONETCP_SRC_DIR}/std_services/echo.c
+#tftp client and server
+	# ${CYCLONETCP_SRC_DIR}/tftp/tftp_client.c
+	# ${CYCLONETCP_SRC_DIR}/tftp/tftp_client_misc.c
+	# ${CYCLONETCP_SRC_DIR}/tftp/tftp_server.c
+	# ${CYCLONETCP_SRC_DIR}/tftp/tftp_server_misc.c
+#websocket
+	# ${CYCLONETCP_SRC_DIR}/web_socket/web_socket.c
+	# ${CYCLONETCP_SRC_DIR}/web_socket/web_socket_auth.c
+	# ${CYCLONETCP_SRC_DIR}/web_socket/web_socket_frame.c
+	# ${CYCLONETCP_SRC_DIR}/web_socket/web_socket_misc.c
+	# ${CYCLONETCP_SRC_DIR}/web_socket/web_socket_transport.c
+)
+
+ADD_LIBRARY(CycloneTCP STATIC ${CYCLONETCP_SRC})
+
+target_link_libraries (CycloneTCP LINK_PUBLIC Common)
+target_link_libraries (CycloneTCP LINK_PUBLIC STM32Cube_f2)
+
+TARGET_INCLUDE_DIRECTORIES(CycloneTCP PUBLIC
+	${CYCLONETCP_SRC_DIR}
+)
 
 ###################
 # Fatfs
@@ -233,11 +455,69 @@ SET(FATFS_SRC
 
 ADD_LIBRARY(Fatfs STATIC ${FATFS_SRC})
 
+target_link_libraries (Fatfs LINK_PUBLIC STM32Cube_f2)
+target_link_libraries (Fatfs LINK_PUBLIC Common)
+
 TARGET_INCLUDE_DIRECTORIES(Fatfs PUBLIC
 	${FATFS_SRC_DIR}
 )
 
+###################
+# jsmn_extras
+###################
 
+SET(JSMNEXTRAS_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/jsmn-extras)
+
+SET(JSMNEXTRAS_SRC
+	${JSMNEXTRAS_SRC_DIR}/jsmn.c
+	${JSMNEXTRAS_SRC_DIR}/jsmn_extras.c
+)
+
+ADD_LIBRARY(Jsmn_extras STATIC ${JSMNEXTRAS_SRC})
+
+TARGET_COMPILE_DEFINITIONS(Jsmn_extras PUBLIC
+	-DJSMN_PARENT_LINKS
+)
+
+TARGET_INCLUDE_DIRECTORIES(Jsmn_extras PUBLIC
+	${JSMNEXTRAS_SRC_DIR}
+)
+
+###################
+# xprintf
+###################
+
+SET(XPINTF_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/xprintf)
+
+SET(XPINTF_SRC
+	${XPINTF_SRC_DIR}/xprintf.c
+)
+
+ADD_LIBRARY(xprintf STATIC ${XPINTF_SRC})
+
+TARGET_INCLUDE_DIRECTORIES(xprintf PUBLIC
+	${XPINTF_SRC_DIR}
+)
+
+###################
+# list
+###################
+
+SET(LIST_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/list)
+
+SET(LIST_SRC
+	${LIST_SRC_DIR}/list_iterator.c
+	${LIST_SRC_DIR}/list_node.c
+	${LIST_SRC_DIR}/list.c
+)
+
+ADD_LIBRARY(list STATIC ${LIST_SRC})
+
+target_link_libraries (list LINK_PUBLIC Common)
+
+TARGET_INCLUDE_DIRECTORIES(list PUBLIC
+	${LIST_SRC_DIR}
+)
 #TARGET_COMPILE_DEFINITIONS(STM32duino PRIVATE 
 #	-DVECT_TAB_ADDR=${VECT_TAB_ADDR} 
 #	-DGENERIC_BOOTLOADER 

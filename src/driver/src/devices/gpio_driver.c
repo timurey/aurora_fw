@@ -6,7 +6,7 @@
  */
 #include "os_port.h"
 #include "DriverInterface.h"
-#include "../expression_parser/expression_parser.h"
+#include "expression_parser/expression_parser.h"
 #include <math.h>
 #include "gpio_driver.h"
 

@@ -3,7 +3,11 @@
 
 SET(SOURCE_FILES
 	
+	./main.c
+	./mem.c
+	./network.c
 	./_write.c
+	./newlib.c
 	./driver/src/DataManager.c
 	./driver/src/DriverInterface.c
 
@@ -16,21 +20,29 @@ SET(SOURCE_FILES
 	./expression_parser/logic.c
 	./expression_parser/logic.h
 	./expression_parser/variables_def.h
-	./main.c
-	./mem.c
-	./network.c
 
-	./onewire/ds1820/ds1820.c
-	./onewire/ds1820/ds1820.h
-	./onewire/onewire.c
-	./onewire/onewire.h
+	./CycloneTCP_extras/sntpd.c
+	./CycloneTCP_extras/ftpd.c
+	./CycloneTCP_extras/httpd.c
+	./CycloneTCP_extras/rest/clock.c
+#	./CycloneTCP_extras/rest/onewire_rest.c
+	./CycloneTCP_extras/rest/powermanagment.c
+	./CycloneTCP_extras/rest/sensors.c
+	./CycloneTCP_extras/rest/cpu.c
+	# ./CycloneTCP_extras/rest/output.c
+	./CycloneTCP_extras/rest/rest.c
 
-	./sdio/bsp_driver_sd.c
-	./sdio/bsp_driver_sd.h
-	./sdio/sd_diskio.c
-	./sdio/sd_diskio.h
-	./sdio/sdio.c
-	./sdio/sdio.h
+#	./onewire/ds1820/ds1820.c
+#	./onewire/ds1820/ds1820.h
+#	./onewire/onewire.c
+#	./onewire/onewire.h
+
+	./fatfs_extras/ff_gen_drv.c
+	./fatfs_extras/bsp_driver_sd.c
+	./fatfs_extras/sd_diskio.c
+	./fatfs_extras/sdio.c
+	./fatfs_extras/diskio.c
+
 	./stm32f2xx_it.c
 
 	./stuff/configs.c
@@ -42,6 +54,7 @@ SET(SOURCE_FILES
 	./stuff/rtc.h
 	./stuff/uuid.c
 	./stuff/uuid.h
+
 	./usbd_cdc_if.c
 	./usbd_conf.c
 	./usbd_desc.c
@@ -51,17 +64,11 @@ SET(SOURCE_FILES
 INCLUDE_DIRECTORIES(
 	.
 	./driver/include
-	# ${AURORA_LIBS_DIR}/USBlib/core/inc
-	# ${AURORA_LIBS_DIR}/USBlib/class/cdc/inc
-
-	${AURORA_LIBS_DIR}/stm32cube_f2/STM32F2xx_HAL_Driver/Inc
-	${AURORA_LIBS_DIR}/stm32cube_f2/CMSIS/Device/ST/STM32F2xx/Include/
-	${AURORA_LIBS_DIR}/stm32cube_f2/CMSIS/Include/
-
-	${AURORA_LIBS_DIR}/Common
-	${AURORA_LIBS_DIR}/fatfs
-	${AURORA_LIBS_DIR}/FreeRTOS
-	)
+	./CycloneTCP_extras
+	./fatfs_extras
+	./stuff
+	./onewire
+)
 
 
 # Do not link to libc or newlib-nano - we are not using anything from that
@@ -73,9 +80,12 @@ TARGET_LINK_LIBRARIES(Aurora LINK_PUBLIC
 	FreeRTOS
 	USBLib
 	STM32Cube_f2
-	
 	Common
 	Fatfs
+	CycloneTCP
+	Jsmn_extras
+	xprintf
+	list
 )
 
 STM32_SET_TARGET_PROPERTIES(Aurora)
