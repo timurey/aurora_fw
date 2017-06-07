@@ -28,7 +28,7 @@ int main(void)
    /* Configure the system clock to 120 MHz */
    SystemClock_Config();
 
-   osCreateTask("Blinker", vBlinker, NULL, 38, 4);
+   osCreateTask("Blinker", vBlinker, NULL, configMINIMAL_STACK_SIZE*4, 4);
    osCreateTask("startup", startup_task, NULL, configMINIMAL_STACK_SIZE*2, 3);
    osCreateTask("Network_Services", networkServices, NULL, configMINIMAL_STACK_SIZE*4, 1);
    //   osCreateTask("driver_task", driverTask, NULL, configMINIMAL_STACK_SIZE, 1);
@@ -57,7 +57,8 @@ void startup_task (void *pvParameters)
    USBD_Start(&hUsbDeviceFS);
 
    xdev_out(putchar);
-
+   
+   _write (1, "!!!", 3);
 
    MX_SDIO_SD_Init();
    FATFS_LinkDriver(&SD_Driver, SD_Path);
@@ -87,6 +88,7 @@ void vBlinker (void *pvParameters)
 
       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
       vTaskDelay(10);
+      xprintf("Testing");
    }
 }
 

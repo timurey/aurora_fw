@@ -49,23 +49,42 @@ ADD_DEFINITIONS(
 	-DF_CPU=72000000L
 	-DHSE_VALUE=25000000
 	-DDEBUG_LEVEL=DEBUG_NONE
-	# -DSERIAL_USB
+	-DUSE_USB_FS
 	-D_VOLUMES=1
 )
 
 # Project wide include directories
 INCLUDE_DIRECTORIES(
-	# Common includes
-	${CMAKE_CURRENT_SOURCE_DIR}/include
 	
-	# FREErtos includes
+	# FreeRTOS includes
 	${FREERTOS_INCLUDE_DIRS}
-	
-	# STM32cube includes
-	${STM32CUBE_F2_INCLUDE_DIRS}
 
 	# USBLib includes
 	${USBLIB_INCLUDE_DIRS}
+
+	# STM32cube includes
+	${STM32CUBE_F2_INCLUDE_DIRS}
+
+	# ORYX Common
+	${COMMON_INCLUDE_DIRS}
+
+	# ORYX CycloneTCP
+	${CYCLONETCP_INCLUDE_DIRS}
+
+	# FatFs
+	${FATFS_INCLUDE_DIRS}
+
+	# Jsmn-extras
+	${JSMNEXTRAS_INCLUDE_DIRS}
+
+	# xprintf
+	${XPRINTF_INCLUDE_DIRS}
+
+	# Linked list
+	${LIST_INCLUDE_DIRS}
+
+	# Common includes
+	${CMAKE_CURRENT_SOURCE_DIR}/include
 
 	# Common includes
 	${COMMON_INCLUDE_DIRS}
@@ -74,4 +93,3 @@ INCLUDE_DIRECTORIES(
 
 ADD_SUBDIRECTORY(Lib)
 ADD_SUBDIRECTORY(Src)
-

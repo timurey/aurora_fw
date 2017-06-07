@@ -15,32 +15,15 @@ SET(FREERTOS_PORT_DIR portable/GCC/ARM_CM3)
 SET(FREERTOS_SRC
 	${FREERTOS_SRC_DIR}/croutine.c
 	${FREERTOS_SRC_DIR}/event_groups.c
-
-	# ${FREERTOS_SRC_DIR}/include/FreeRTOS.h
-	# ${FREERTOS_SRC_DIR}/include/StackMacros.h
-	# ${FREERTOS_SRC_DIR}/include/croutine.h
-	# ${FREERTOS_SRC_DIR}/include/deprecated_definitions.h
-	# ${FREERTOS_SRC_DIR}/include/event_groups.h
-	# ${FREERTOS_SRC_DIR}/include/list.h
-	# ${FREERTOS_SRC_DIR}/include/mpu_prototypes.h
-	# ${FREERTOS_SRC_DIR}/include/mpu_wrappers.h
-	# ${FREERTOS_SRC_DIR}/include/portable.h
-	# ${FREERTOS_SRC_DIR}/include/projdefs.h
-	# ${FREERTOS_SRC_DIR}/include/queue.h
-	# ${FREERTOS_SRC_DIR}/include/semphr.h
-	# ${FREERTOS_SRC_DIR}/include/stdint.readme
-	# ${FREERTOS_SRC_DIR}/include/task.h
-	# ${FREERTOS_SRC_DIR}/include/timers.h
 	${FREERTOS_SRC_DIR}/list.c
-
-	${FREERTOS_SRC_DIR}/${FREERTOS_PORT_DIR}/port.c
-	${FREERTOS_SRC_DIR}/${FREERTOS_PORT_DIR}/portmacro.h
-
 	${FREERTOS_SRC_DIR}/queue.c
-
 	${FREERTOS_SRC_DIR}/tasks.c
 	${FREERTOS_SRC_DIR}/timers.c
+	
 	${FREERTOS_SRC_DIR}/portable/MemMang/heap_4.c
+	
+	${FREERTOS_SRC_DIR}/${FREERTOS_PORT_DIR}/port.c
+	${FREERTOS_SRC_DIR}/${FREERTOS_PORT_DIR}/portmacro.h
 )
 ADD_LIBRARY(FreeRTOS STATIC ${FREERTOS_SRC})
 
@@ -94,69 +77,69 @@ SET(STM32CUBE_F2_SRC
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_adc.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_adc_ex.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_can.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_can.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_cortex.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_crc.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_cryp.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_dac.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_dac_ex.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_dcmi.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_crc.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_cryp.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_dac.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_dac_ex.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_dcmi.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_dma.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_dma_ex.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_eth.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_eth.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_flash.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_flash_ex.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_flash_ex.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_gpio.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_hash.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_hcd.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_i2c.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_i2s.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_irda.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_iwdg.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_mmc.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_msp_template.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_nand.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_nor.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_pccard.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_hash.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_hcd.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_i2c.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_i2s.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_irda.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_iwdg.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_mmc.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_msp_template.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_nand.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_nor.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_pccard.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_pcd.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_pcd_ex.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_pwr.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_pwr_ex.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_pwr_ex.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_rcc.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_rcc_ex.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_rng.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_rtc.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_rtc_ex.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_sd.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_smartcard.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_smartcard.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_spi.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_sram.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_sram.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_tim.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_tim_ex.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_alarm_template.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_wakeup_template.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_alarm_template.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_wakeup_template.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_tim_template.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_uart.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_usart.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_wwdg.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_usart.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_wwdg.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_adc.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_crc.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_dac.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_crc.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_dac.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_dma.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_exti.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_fsmc.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_exti.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_fsmc.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_gpio.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_i2c.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_pwr.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_i2c.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_pwr.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_rcc.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_rng.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_rng.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_rtc.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_sdmmc.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_spi.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_tim.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_usart.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_tim.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_usart.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_usb.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_utils.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_utils.c
 
 )
 
@@ -442,7 +425,7 @@ TARGET_INCLUDE_DIRECTORIES(CycloneTCP PUBLIC
 )
 
 ###################
-# Fatfs
+# fatfs
 ###################
 
 SET(FATFS_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/fatfs)
@@ -518,8 +501,3 @@ target_link_libraries (list LINK_PUBLIC Common)
 TARGET_INCLUDE_DIRECTORIES(list PUBLIC
 	${LIST_SRC_DIR}
 )
-#TARGET_COMPILE_DEFINITIONS(STM32duino PRIVATE 
-#	-DVECT_TAB_ADDR=${VECT_TAB_ADDR} 
-#	-DGENERIC_BOOTLOADER 
-#	-DBOARD_maple
-#)

@@ -72,7 +72,7 @@ INCLUDE_DIRECTORIES(
 
 
 # Do not link to libc or newlib-nano - we are not using anything from that
-SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --specs=nosys.specs")
+# SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
 
 ADD_EXECUTABLE(Aurora ${SOURCE_FILES})
 
