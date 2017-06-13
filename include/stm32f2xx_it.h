@@ -1,11 +1,10 @@
 /**
   ******************************************************************************
   * @file    stm32f2xx_it.h
-  * @date    27/02/2015 23:30:24
   * @brief   This file contains the headers of the interrupt handlers.
   ******************************************************************************
   *
-  * COPYRIGHT(c) 2015 STMicroelectronics
+  * COPYRIGHT(c) 2017 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -47,7 +46,16 @@
 /* Exported functions ------------------------------------------------------- */
 
 void SysTick_Handler(void);
-void TIMx_IRQHandler(void);
+void DMA1_Stream5_IRQHandler(void);
+void DMA1_Stream6_IRQHandler(void);
+void TIM1_UP_TIM10_IRQHandler(void);
+void DMA2_Stream2_IRQHandler(void);
+void DMA2_Stream3_IRQHandler(void);
+void DMA2_Stream4_IRQHandler(void);
+void OTG_FS_IRQHandler(void);
+void DMA2_Stream6_IRQHandler(void);
+void DMA2_Stream7_IRQHandler(void);
+
 #ifdef __cplusplus
 }
 #endif

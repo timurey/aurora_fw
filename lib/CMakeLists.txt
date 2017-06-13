@@ -24,12 +24,18 @@ SET(FREERTOS_SRC
 	
 	${FREERTOS_SRC_DIR}/${FREERTOS_PORT_DIR}/port.c
 	${FREERTOS_SRC_DIR}/${FREERTOS_PORT_DIR}/portmacro.h
+
+	${FREERTOS_SRC_DIR}/CMSIS_RTOS/cmsis_os.c
+
 )
 ADD_LIBRARY(FreeRTOS STATIC ${FREERTOS_SRC})
+
+target_link_libraries (FreeRTOS LINK_PUBLIC cmsis)
 
 target_include_directories(FreeRTOS PUBLIC 
 	${FREERTOS_SRC_DIR}/include
 	${FREERTOS_SRC_DIR}/${FREERTOS_PORT_DIR}
+	${FREERTOS_SRC_DIR}/CMSIS_RTOS/
 )
 
 
@@ -72,8 +78,6 @@ target_link_libraries (USBLib LINK_PUBLIC STM32Cube_f2)
 SET(STM32CUBE_F2_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/stm32cube_f2)
 
 SET(STM32CUBE_F2_SRC
-	${STM32CUBE_F2_SRC_DIR}/CMSIS/Device/ST/STM32F2xx/Source/Templates/gcc/startup_stm32f205xx.s
-	${STM32CUBE_F2_SRC_DIR}/CMSIS/Device/ST/STM32F2xx/Source/Templates/system_stm32f2xx.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_adc.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_adc_ex.c
@@ -118,9 +122,9 @@ SET(STM32CUBE_F2_SRC
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_tim_ex.c
 	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_alarm_template.c
 	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_wakeup_template.c
-	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_tim_template.c
+	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_tim_template.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_uart.c
-	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_usart.c
+	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_usart.c
 	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_wwdg.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_adc.c
 	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_crc.c
@@ -137,7 +141,7 @@ SET(STM32CUBE_F2_SRC
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_sdmmc.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_spi.c
 	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_tim.c
-	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_usart.c
+	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_usart.c
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_usb.c
 	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_utils.c
 
@@ -146,12 +150,30 @@ SET(STM32CUBE_F2_SRC
 
 ADD_LIBRARY(STM32Cube_f2 STATIC ${STM32CUBE_F2_SRC})
 
-target_link_libraries (STM32Cube_f2 LINK_PUBLIC newlib)
+target_link_libraries (STM32Cube_f2 LINK_PUBLIC cmsis)
 
 TARGET_INCLUDE_DIRECTORIES(STM32Cube_f2 PUBLIC
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Inc
-	${STM32CUBE_F2_SRC_DIR}/CMSIS/Device/ST/STM32F2xx/Include/
-	${STM32CUBE_F2_SRC_DIR}/CMSIS/Include/
+)
+
+
+
+###################
+# CMSIS
+###################
+
+SET(CMSIS_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/stm32cube_f2)
+
+SET(CMSIS_F2_SRC
+	${CMSIS_SRC_DIR}/CMSIS/Device/ST/STM32F2xx/Source/Templates/gcc/startup_stm32f205xx.s
+	${CMSIS_SRC_DIR}/CMSIS/Device/ST/STM32F2xx/Source/Templates/system_stm32f2xx.c
+)
+
+ADD_LIBRARY(cmsis STATIC ${CMSIS_F2_SRC})
+
+TARGET_INCLUDE_DIRECTORIES(cmsis PUBLIC
+	${CMSIS_SRC_DIR}/CMSIS/Device/ST/STM32F2xx/Include/
+	${CMSIS_SRC_DIR}/CMSIS/Include/
 )
 
 
@@ -516,23 +538,3 @@ target_link_libraries (list LINK_PUBLIC Common)
 TARGET_INCLUDE_DIRECTORIES(list PUBLIC
 	${LIST_SRC_DIR}
 )
-
-###################
-# newlib
-###################
-
-SET(NEWLIB_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/newlib)
-
-SET(NEWLIB_SRC
-	${NEWLIB_SRC_DIR}/_exit.c
-	${NEWLIB_SRC_DIR}/_sbrk.c
-	${NEWLIB_SRC_DIR}/_startup.c
-	${NEWLIB_SRC_DIR}/_syscalls.c
-	${NEWLIB_SRC_DIR}/assert.c
-)
-
-ADD_LIBRARY(newlib STATIC ${NEWLIB_SRC})
-
-# TARGET_INCLUDE_DIRECTORIES(newli PUBLIC
-# 	${LIST_SRC_DIR}
-# )

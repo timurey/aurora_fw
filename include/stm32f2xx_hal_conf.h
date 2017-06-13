@@ -1,15 +1,11 @@
 /**
   ******************************************************************************
   * @file    stm32f2xx_hal_conf.h
-  * @version V1.1.3
-  * @date    29-June-2016
-  * @brief   HAL configuration template file. 
-  *          This file should be copied to the application folder and renamed
-  *          to stm32f2xx_hal_conf.h.
+  * @brief   HAL configuration file. 
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2017 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -44,6 +40,7 @@
  extern "C" {
 #endif
 
+#include "main.h"
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 
@@ -51,43 +48,43 @@
 /**
   * @brief This is the list of modules to be used in the HAL driver 
   */
-#define HAL_MODULE_ENABLED
+  
+#define HAL_MODULE_ENABLED  
 #define HAL_ADC_MODULE_ENABLED
-//#define HAL_CAN_MODULE_ENABLED
-//#define HAL_CRC_MODULE_ENABLED
-//#define HAL_CRYP_MODULE_ENABLED
-//#define HAL_DAC_MODULE_ENABLED
-//#define HAL_DCMI_MODULE_ENABLED
-#define HAL_DMA_MODULE_ENABLED
-//#define HAL_ETH_MODULE_ENABLED
-#define HAL_FLASH_MODULE_ENABLED
-//#define HAL_NAND_MODULE_ENABLED
-//#define HAL_NOR_MODULE_ENABLED
-//#define HAL_PCCARD_MODULE_ENABLED
-//#define HAL_SRAM_MODULE_ENABLED
-//#define HAL_HASH_MODULE_ENABLED
-#define HAL_GPIO_MODULE_ENABLED
-//#define HAL_I2C_MODULE_ENABLED
-//#define HAL_I2S_MODULE_ENABLED
-//#define HAL_IWDG_MODULE_ENABLED
-#define HAL_PWR_MODULE_ENABLED
-#define HAL_RCC_MODULE_ENABLED
-//#define HAL_RNG_MODULE_ENABLED
+/*#define HAL_CRYP_MODULE_ENABLED   */
+/*#define HAL_CAN_MODULE_ENABLED   */
+/*#define HAL_CRC_MODULE_ENABLED   */
+/*#define HAL_CRYP_MODULE_ENABLED   */
+/*#define HAL_DAC_MODULE_ENABLED   */
+/*#define HAL_DCMI_MODULE_ENABLED   */
+/*#define HAL_ETH_MODULE_ENABLED   */
+/*#define HAL_NAND_MODULE_ENABLED   */
+/*#define HAL_NOR_MODULE_ENABLED   */
+/*#define HAL_PCCARD_MODULE_ENABLED   */
+#define HAL_SRAM_MODULE_ENABLED
+/*#define HAL_HASH_MODULE_ENABLED   */
+/*#define HAL_I2C_MODULE_ENABLED   */
+/*#define HAL_I2S_MODULE_ENABLED   */
+/*#define HAL_IWDG_MODULE_ENABLED   */
+/*#define HAL_RNG_MODULE_ENABLED   */
 #define HAL_RTC_MODULE_ENABLED
 #define HAL_SD_MODULE_ENABLED
-#define HAL_SPI_MODULE_ENABLED
+/*#define HAL_MMC_MODULE_ENABLED   */
+/*#define HAL_SPI_MODULE_ENABLED   */
 #define HAL_TIM_MODULE_ENABLED
 #define HAL_UART_MODULE_ENABLED
-//#define HAL_USART_MODULE_ENABLED
-//#define HAL_IRDA_MODULE_ENABLED
-//#define HAL_SMARTCARD_MODULE_ENABLED
-//#define HAL_WWDG_MODULE_ENABLED
-#define HAL_CORTEX_MODULE_ENABLED
+#define HAL_USART_MODULE_ENABLED
+/*#define HAL_IRDA_MODULE_ENABLED   */
+/*#define HAL_SMARTCARD_MODULE_ENABLED   */
+/*#define HAL_WWDG_MODULE_ENABLED   */
 #define HAL_PCD_MODULE_ENABLED
-//#define HAL_HCD_MODULE_ENABLED
-//#define HAL_MMC_MODULE_ENABLED
-
-
+/*#define HAL_HCD_MODULE_ENABLED   */
+#define HAL_GPIO_MODULE_ENABLED
+#define HAL_DMA_MODULE_ENABLED
+#define HAL_RCC_MODULE_ENABLED
+#define HAL_FLASH_MODULE_ENABLED
+#define HAL_PWR_MODULE_ENABLED
+#define HAL_CORTEX_MODULE_ENABLED
 
 /* ########################## HSE/HSI Values adaptation ##################### */
 /**
@@ -122,9 +119,10 @@
                                              in voltage and temperature.*/
 /**
   * @brief External Low Speed oscillator (LSE) value.
+
   */
 #if !defined  (LSE_VALUE)
- #define LSE_VALUE  ((uint32_t)32768U)    /*!< Value of the External Low Speed oscillator in Hz */
+  #define LSE_VALUE    ((uint32_t)32768U) /*!< Value of the External oscillator in Hz*/
 #endif /* LSE_VALUE */
 
 #if !defined  (LSE_STARTUP_TIMEOUT)
@@ -137,7 +135,7 @@
   *        frequency, this source is inserted directly through I2S_CKIN pad. 
   */
 #if !defined  (EXTERNAL_CLOCK_VALUE)
-  #define EXTERNAL_CLOCK_VALUE    ((uint32_t)12288000U) /*!< Value of the Internal oscillator in Hz*/
+  #define EXTERNAL_CLOCK_VALUE    ((uint32_t)12288000U) /*!< Value of the External audio frequency in Hz*/
 #endif /* EXTERNAL_CLOCK_VALUE */
 
 /* Tip: To avoid modifying this file each time you need to use different HSE,
@@ -147,11 +145,11 @@
 /**
   * @brief This is the HAL system configuration section
   */     
-#define  VDD_VALUE                    ((uint32_t)3300U) /*!< Value of VDD in mv */
-#define  TICK_INT_PRIORITY            ((uint32_t)0x0FU) /*!< tick interrupt priority */          
-#define  USE_RTOS                     0U
-#define  PREFETCH_ENABLE              1U
-#define  INSTRUCTION_CACHE_ENABLE     1U
+#define  VDD_VALUE                    ((uint32_t)3300U) /*!< Value of VDD in mv */           
+#define  TICK_INT_PRIORITY            ((uint32_t)0U) /*!< tick interrupt priority */
+#define  USE_RTOS                     0U     
+#define  PREFETCH_ENABLE              1              
+#define  INSTRUCTION_CACHE_ENABLE     1
 #define  DATA_CACHE_ENABLE            1U
 
 /* ########################## Assert Selection ############################## */
@@ -181,8 +179,8 @@
 
 /* Section 2: PHY configuration section */
 
-/* DP83848 PHY Address*/ 
-#define DP83848_PHY_ADDRESS             0x01U
+/* DP83848_PHY_ADDRESS Address*/ 
+#define DP83848_PHY_ADDRESS           0x01U
 /* PHY Reset delay these values are based on a 1 ms Systick interrupt*/ 
 #define PHY_RESET_DELAY                 ((uint32_t)0x000000FFU)
 /* PHY Configuration delay */
@@ -193,8 +191,8 @@
 
 /* Section 3: Common PHY Registers */
 
-#define PHY_BCR                         ((uint16_t)0x0000U)  /*!< Transceiver Basic Control Register   */
-#define PHY_BSR                         ((uint16_t)0x0001U)  /*!< Transceiver Basic Status Register    */
+#define PHY_BCR                         ((uint16_t)0x0000U)    /*!< Transceiver Basic Control Register   */
+#define PHY_BSR                         ((uint16_t)0x0001U)    /*!< Transceiver Basic Status Register    */
  
 #define PHY_RESET                       ((uint16_t)0x8000U)  /*!< PHY Reset */
 #define PHY_LOOPBACK                    ((uint16_t)0x4000U)  /*!< Select loop-back mode */
@@ -212,20 +210,10 @@
 #define PHY_JABBER_DETECTION            ((uint16_t)0x0002U)  /*!< Jabber condition detected            */
   
 /* Section 4: Extended PHY Registers */
+#define PHY_SR                          ((uint16_t)0x10U)    /*!< PHY status register Offset                      */
 
-#define PHY_SR                          ((uint16_t)0x0010U)  /*!< PHY status register Offset                      */
-#define PHY_MICR                        ((uint16_t)0x0011U)  /*!< MII Interrupt Control Register                  */
-#define PHY_MISR                        ((uint16_t)0x0012U)  /*!< MII Interrupt Status and Misc. Control Register */
- 
-#define PHY_LINK_STATUS                 ((uint16_t)0x0001U)  /*!< PHY Link mask                                   */
 #define PHY_SPEED_STATUS                ((uint16_t)0x0002U)  /*!< PHY Speed mask                                  */
 #define PHY_DUPLEX_STATUS               ((uint16_t)0x0004U)  /*!< PHY Duplex mask                                 */
-
-#define PHY_MICR_INT_EN                 ((uint16_t)0x0002U)  /*!< PHY Enable interrupts                           */
-#define PHY_MICR_INT_OE                 ((uint16_t)0x0001U)  /*!< PHY Enable output interrupt events              */
-
-#define PHY_MISR_LINK_INT_EN            ((uint16_t)0x0020U)  /*!< Enable Interrupt on change of link status       */
-#define PHY_LINK_INTERRUPT              ((uint16_t)0x2000U)  /*!< PHY link status interrupt mask                  */
 
 /* ################## SPI peripheral configuration ########################## */
 
@@ -234,8 +222,7 @@
 * Deactivated: CRC code cleaned from driver
 */
 
-#define USE_SPI_CRC                     1U
-
+#define USE_SPI_CRC                     0U
 /* Includes ------------------------------------------------------------------*/
 /**
   * @brief Include module's header file 
@@ -270,7 +257,7 @@
 #endif /* HAL_CRC_MODULE_ENABLED */
 
 #ifdef HAL_CRYP_MODULE_ENABLED
-  #include "stm32f2xx_hal_cryp.h"
+  #include "stm32f2xx_hal_cryp.h" 
 #endif /* HAL_CRYP_MODULE_ENABLED */
 
 #ifdef HAL_DAC_MODULE_ENABLED
@@ -337,6 +324,10 @@
  #include "stm32f2xx_hal_sd.h"
 #endif /* HAL_SD_MODULE_ENABLED */
 
+#ifdef HAL_MMC_MODULE_ENABLED
+ #include "stm32f2xx_hal_mmc.h"
+#endif /* HAL_MMC_MODULE_ENABLED */
+
 #ifdef HAL_SPI_MODULE_ENABLED
  #include "stm32f2xx_hal_spi.h"
 #endif /* HAL_SPI_MODULE_ENABLED */
@@ -372,10 +363,7 @@
 #ifdef HAL_HCD_MODULE_ENABLED
  #include "stm32f2xx_hal_hcd.h"
 #endif /* HAL_HCD_MODULE_ENABLED */
-
-#ifdef HAL_MMC_MODULE_ENABLED
- #include "stm32f2xx_hal_mmc.h"
-#endif /* HAL_MMC_MODULE_ENABLED */   
+   
 /* Exported macro ------------------------------------------------------------*/
 #ifdef  USE_FULL_ASSERT
 /**
@@ -386,13 +374,12 @@
   *         If expr is true, it returns no value.
   * @retval None
   */
-  #define assert_param(expr) ((expr) ? (void)0 : assert_failed((uint8_t *)__FILE__, __LINE__))
+  #define assert_param(expr) ((expr) ? (void)0U : assert_failed((uint8_t *)__FILE__, __LINE__))
 /* Exported functions ------------------------------------------------------- */
   void assert_failed(uint8_t* file, uint32_t line);
 #else
-  #define assert_param(expr) ((void)0)
+  #define assert_param(expr) ((void)0U)
 #endif /* USE_FULL_ASSERT */
-
 
 #ifdef __cplusplus
 }

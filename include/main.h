@@ -1,78 +1,79 @@
 /**
   ******************************************************************************
-  * @file    USB_Device/CDC_Standalone/Inc/main.h 
-  * @author  MCD Application Team
-  * @version V1.1.0
-  * @date    13-March-2014
-  * @brief   Header for main.c module
+  * File Name          : main.h
+  * Description        : This file contains the common defines of the application
   ******************************************************************************
-  * @attention
+  * This notice applies to any and all portions of this file
+  * that are not between comment pairs USER CODE BEGIN and
+  * USER CODE END. Other portions of this file, whether 
+  * inserted by the user or by software development tools
+  * are owned by their respective copyright owners.
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2014 STMicroelectronics</center></h2>
+  * Copyright (c) 2017 STMicroelectronics International N.V. 
+  * All rights reserved.
   *
-  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
-  * You may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at:
+  * Redistribution and use in source and binary forms, with or without 
+  * modification, are permitted, provided that the following conditions are met:
   *
-  *        http://www.st.com/software_license_agreement_liberty_v2
+  * 1. Redistribution of source code must retain the above copyright notice, 
+  *    this list of conditions and the following disclaimer.
+  * 2. Redistributions in binary form must reproduce the above copyright notice,
+  *    this list of conditions and the following disclaimer in the documentation
+  *    and/or other materials provided with the distribution.
+  * 3. Neither the name of STMicroelectronics nor the names of other 
+  *    contributors to this software may be used to endorse or promote products 
+  *    derived from this software without specific written permission.
+  * 4. This software, including modifications and/or derivative works of this 
+  *    software, must execute solely and exclusively on microcontroller or
+  *    microprocessor devices manufactured by or for STMicroelectronics.
+  * 5. Redistribution and use of this software other than as permitted under 
+  *    this license is void and will automatically terminate your rights under 
+  *    this license. 
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
+  * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS" 
+  * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT 
+  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+  * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
+  * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT 
+  * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
+  * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
   */
-  
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
+  /* Includes ------------------------------------------------------------------*/
 
-/* Includes ------------------------------------------------------------------*/
-#include "stm32f2xx_hal.h"
-#include "usbd_desc.h"
-#include "usbd_cdc.h" 
-#include "usbd_cdc_if.h"
-#include "os_port.h"
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
-#include "network.h"
-#include "fs_port.h"
-#include "ff.h"
-#include "ff_gen_drv.h"
-#include "sd_diskio.h" /* defines SD_Driver as external */
-#include "sdio.h"
-#include "gpio.h"
-#include "rtc.h"
+/* USER CODE BEGIN Includes */
 
+/* USER CODE END Includes */
 
-#include "xprintf.h"
+/* Private define ------------------------------------------------------------*/
 
-USBD_HandleTypeDef  hUsbDeviceFS;
+#define INT_for_ENC28J60_Pin GPIO_PIN_1
+#define INT_for_ENC28J60_GPIO_Port GPIOA
 
-/* Functions prototypes */
-void startup_task (void *pvParameters);
-void vBlinker (void *pvParameters);
+/* USER CODE BEGIN Private defines */
 
+/* USER CODE END Private defines */
 
-//extern void vRegisterCLICommands( void );
-void vBlinker (void *pvParameters);
+void _Error_Handler(char *, int);
 
-void startup_task (void *pvParameters);
+#define Error_Handler() _Error_Handler(__FILE__, __LINE__)
 
-static void SystemClock_Config(void);
-void DMA2_Stream3_IRQHandler(void);
-void DMA2_Stream6_IRQHandler(void);
-void SDIO_IRQHandler(void);
-char SD_Path[4];
-FATFS SD_FatFs;
-/* Exported types ------------------------------------------------------------*/
-/* Exported constants --------------------------------------------------------*/ 
-/* Exported macro ------------------------------------------------------------*/
-/* Exported functions ------------------------------------------------------- */
+/**
+  * @}
+  */ 
+
+/**
+  * @}
+*/ 
 
 #endif /* __MAIN_H */
-
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

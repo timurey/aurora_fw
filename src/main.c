@@ -1,164 +1,238 @@
+/**
+  ******************************************************************************
+  * File Name          : main.c
+  * Description        : Main program body
+  ******************************************************************************
+  * This notice applies to any and all portions of this file
+  * that are not between comment pairs USER CODE BEGIN and
+  * USER CODE END. Other portions of this file, whether 
+  * inserted by the user or by software development tools
+  * are owned by their respective copyright owners.
+  *
+  * Copyright (c) 2017 STMicroelectronics International N.V. 
+  * All rights reserved.
+  *
+  * Redistribution and use in source and binary forms, with or without 
+  * modification, are permitted, provided that the following conditions are met:
+  *
+  * 1. Redistribution of source code must retain the above copyright notice, 
+  *    this list of conditions and the following disclaimer.
+  * 2. Redistributions in binary form must reproduce the above copyright notice,
+  *    this list of conditions and the following disclaimer in the documentation
+  *    and/or other materials provided with the distribution.
+  * 3. Neither the name of STMicroelectronics nor the names of other 
+  *    contributors to this software may be used to endorse or promote products 
+  *    derived from this software without specific written permission.
+  * 4. This software, including modifications and/or derivative works of this 
+  *    software, must execute solely and exclusively on microcontroller or
+  *    microprocessor devices manufactured by or for STMicroelectronics.
+  * 5. Redistribution and use of this software other than as permitted under 
+  *    this license is void and will automatically terminate your rights under 
+  *    this license. 
+  *
+  * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS" 
+  * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT 
+  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+  * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
+  * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT 
+  * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
+  * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  *
+  ******************************************************************************
+  */
+/* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f2xx_hal.h"
+#include "cmsis_os.h"
+#include "adc.h"
+#include "dma.h"
 #include "fatfs.h"
 #include "rtc.h"
 #include "sdio.h"
+#include "tim.h"
+#include "usart.h"
+#include "usb_device.h"
+#include "gpio.h"
 
+#include "xprintf.h"
+/* USER CODE BEGIN Includes */
 
+/* USER CODE END Includes */
 
-void driverTask (void *pvParameters);
+/* Private variables ---------------------------------------------------------*/
 
-void __attribute__ ((weak)) _init(void)  {}
-// ----- main() ---------------------------------------------------------------
+/* USER CODE BEGIN PV */
+/* Private variables ---------------------------------------------------------*/
 
+/* USER CODE END PV */
+
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+void MX_FREERTOS_Init(void);
+
+/* USER CODE BEGIN PFP */
+/* Private function prototypes -----------------------------------------------*/
+
+/* USER CODE END PFP */
+
+/* USER CODE BEGIN 0 */
+
+/* USER CODE END 0 */
 
 int main(void)
+{
+
+  /* USER CODE BEGIN 1 */
+
+  /* USER CODE END 1 */
+
+  /* MCU Configuration----------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_DMA_Init();
+  MX_ADC1_Init();
+  MX_RTC_Init();
+  MX_SDIO_SD_Init();
+  MX_TIM7_Init();
+  MX_USART1_Init();
+  MX_USART2_UART_Init();
+  MX_USART3_UART_Init();
+
+  /* USER CODE BEGIN 2 */
+  xdev_out(putchar);
+  xdev_in(getchar);
+  setvbuf(stdout, NULL, _IONBF, 0);
+  /* USER CODE END 2 */
+
+  /* Call init function for freertos objects (in freertos.c) */
+  MX_FREERTOS_Init();
+
+  /* Start scheduler */
+  osKernelStart();
   
-{
-   
-   HAL_Init();
-   //   OsTask *task;
-   RTC_Init();
-   /* Configure the system clock to 120 MHz */
-   SystemClock_Config();
-    // MX_SDIO_SD_Init();
-   osCreateTask("Blinker", vBlinker, NULL, 38, 3);
-   osCreateTask("startup", startup_task, NULL, configMINIMAL_STACK_SIZE*2, 4);
-   osCreateTask("Network_Services", networkServices, NULL, configMINIMAL_STACK_SIZE*4, 1);
-   //   osCreateTask("driver_task", driverTask, NULL, configMINIMAL_STACK_SIZE, 1);
+  /* We should never get here as control is now taken by the scheduler */
 
-   //	task = osCreateTask("CLI\t", vCommandInterpreterTask, NULL, configMINIMAL_STACK_SIZE*4, 1);
-   osStartKernel();
-   while(1)
-   {
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+  /* USER CODE END WHILE */
 
-   }
+  /* USER CODE BEGIN 3 */
+
+  }
+  /* USER CODE END 3 */
+
 }
 
-void startup_task (void *pvParameters)
-{
-
-   (void) pvParameters;
-   MX_GPIO_Init();
-
-   /* Init Device Library */
-   USBD_Init(&hUsbDeviceFS, &VCP_Desc, 0);
-   /* Add Supported Class */
-   USBD_RegisterClass(&hUsbDeviceFS, &USBD_CDC);
-   /* Add CDC Interface Class */
-   USBD_CDC_RegisterInterface(&hUsbDeviceFS, &USBD_Interface_fops_FS);
-   /* Start Device Process */
-   USBD_Start(&hUsbDeviceFS);
-
-   xdev_out(putchar);
-   
-
-   MX_SDIO_SD_Init();
-   FATFS_LinkDriver(&SD_Driver, SD_Path);
-   fsInit();
-
-
-   vTaskDelete(NULL);
-}
-
-void vBlinker (void *pvParameters)
-{
-   (void) pvParameters;
-   __GPIOB_CLK_ENABLE();
-   GPIO_InitTypeDef GPIO_InitStruct;
-
-   GPIO_InitStruct.Pin = GPIO_PIN_5;
-   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-   GPIO_InitStruct.Pull = GPIO_PULLUP;
-   GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-   while(1)
-   {
-
-      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
-      vTaskDelay(990);
-
-      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
-      vTaskDelay(10);
-      xprintf("Testing");
-   }
-}
-
-/**
- * @brief  System Clock Configuration
- *         The system Clock is configured as follow :
- *            System Clock source            = PLL (HSE)
- *            SYSCLK(Hz)                     = 120000000
- *            HCLK(Hz)                       = 120000000
- *            AHB Prescaler                  = 1
- *            APB1 Prescaler                 = 4
- *            APB2 Prescaler                 = 2
- *            HSE Frequency(Hz)              = 25000000
- *            PLL_M                          = 25
- *            PLL_N                          = 240
- *            PLL_P                          = 2
- *            PLL_Q                          = 5
- *            VDD(V)                         = 3.3
- *            Flash Latency(WS)              = 3
- * @param  None
- * @retval None
- */
-
+/** System Clock Configuration
+*/
 void SystemClock_Config(void)
 {
 
-   RCC_ClkInitTypeDef RCC_ClkInitStruct;
-   RCC_OscInitTypeDef RCC_OscInitStruct;
+  RCC_OscInitTypeDef RCC_OscInitStruct;
+  RCC_ClkInitTypeDef RCC_ClkInitStruct;
+  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct;
 
-   /* Enable HSE Oscillator and activate PLL with HSE as source */
-   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-   RCC_OscInitStruct.PLL.PLLM = 25;
-   RCC_OscInitStruct.PLL.PLLN = 240;
-   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-   RCC_OscInitStruct.PLL.PLLQ = 5;
-   HAL_RCC_OscConfig(&RCC_OscInitStruct);
+    /**Initializes the CPU, AHB and APB busses clocks 
+    */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLM = 25;
+  RCC_OscInitStruct.PLL.PLLN = 240;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = 5;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
 
-   /* Select PLL as system clock source and configure the HCLK, PCLK1 and PCLK2
-	     clocks dividers */
-   RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
-   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
-   HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_3);
+    /**Initializes the CPU, AHB and APB busses clocks 
+    */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV4;
 
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_3) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
+  PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+    /**Configure the Systick interrupt time 
+    */
+  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
+
+    /**Configure the Systick 
+    */
+  HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
+
+  /* SysTick_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0);
 }
 
-void DMA2_Stream3_IRQHandler(void)
+/* USER CODE BEGIN 4 */
+
+/* USER CODE END 4 */
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM1 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-   BSP_SD_DMA_Rx_IRQHandler();
+/* USER CODE BEGIN Callback 0 */
+
+/* USER CODE END Callback 0 */
+  if (htim->Instance == TIM1) {
+    HAL_IncTick();
+  }
+/* USER CODE BEGIN Callback 1 */
+
+/* USER CODE END Callback 1 */
 }
 
 /**
- * @brief  This function handles DMA2 Stream 6 interrupt request.
- * @param  None
- * @retval None
- */
-void DMA2_Stream6_IRQHandler(void)
-{
-   BSP_SD_DMA_Tx_IRQHandler();
-}
-
-/**
- * @brief  This function handles SDIO interrupt request.
- * @param  None
- * @retval None
- */
-void SDIO_IRQHandler(void)
-{
-   BSP_SD_IRQHandler();
-}
-
-
+  * @brief  This function is executed in case of error occurrence.
+  * @param  None
+  * @retval None
+  */
 void _Error_Handler(char * file, int line)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -168,3 +242,33 @@ void _Error_Handler(char * file, int line)
   }
   /* USER CODE END Error_Handler_Debug */ 
 }
+
+#ifdef USE_FULL_ASSERT
+
+/**
+   * @brief Reports the name of the source file and the source line number
+   * where the assert_param error has occurred.
+   * @param file: pointer to the source file name
+   * @param line: assert_param error line source number
+   * @retval None
+   */
+void assert_failed(uint8_t* file, uint32_t line)
+{
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+    ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
+
+}
+
+#endif
+
+/**
+  * @}
+  */ 
+
+/**
+  * @}
+*/ 
+
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
