@@ -16,10 +16,10 @@ IF(NOT TOOLCHAIN_PREFIX)
      MESSAGE(STATUS "No TOOLCHAIN_PREFIX specified, using default: " ${TOOLCHAIN_PREFIX})
 ENDIF()
 
-IF(NOT STM32_LINKER_SCRIPT)
-     SET(STM32_LINKER_SCRIPT "../ldscripts/stm32_flash.ld")
-     MESSAGE(STATUS "No STM32_LINKER_SCRIPT specified, using default: " ${STM32_LINKER_SCRIPT})
-ENDIF()
+# IF(NOT STM32_LINKER_SCRIPT)
+#      SET(STM32_LINKER_SCRIPT "../ldscripts/stm32_flash.ld")
+#      MESSAGE(STATUS "No STM32_LINKER_SCRIPT specified, using default: " ${STM32_LINKER_SCRIPT})
+# ENDIF()
 
 # Using Maple's linker script that corresponds maple/stm32duino code
 # SET(STM32_LINKER_SCRIPT ${AURORA_LIBS_DIR}/STM32duino/variants/generic_stm32f103c/ld/bootloader_20.ld)
@@ -28,7 +28,8 @@ ENDIF()
 # Flash offset due to bootloader
 #SET(VECT_TAB_ADDR "0x08002000")
 #SET(STM32_FLASH_ORIGIN "0x08002000")
-
+SET(STM32_MIN_STACK_SIZE 4096)
+SET(STM32_MIN_HEAP_SIZE 1024)
 # Load the toolchain file that uses vars above
 SET(CMAKE_TOOLCHAIN_FILE ../stm32-cmake/cmake/gcc_stm32.cmake)
 
@@ -43,14 +44,13 @@ ENABLE_LANGUAGE(ASM)
 
 # Project wide definitions
 ADD_DEFINITIONS(
-	-DSTM32F205xx
-	-DSTM32F205VET6
-	-DMCU_STM32F205VET6
-	-DF_CPU=72000000L
+	
+	-DDEBUG
+	-D_WANT_IO_C99_FORMATS
+	-DUSE_FULL_ASSERT
 	-DHSE_VALUE=25000000
-	-DDEBUG_LEVEL=DEBUG_NONE
+	-DSTM32F205xx
 	-DUSE_USB_FS
-	-D_VOLUMES=1
 )
 
 # Project wide include directories
@@ -84,7 +84,7 @@ INCLUDE_DIRECTORIES(
 	${LIST_INCLUDE_DIRS}
 
 	# Common includes
-	${CMAKE_CURRENT_SOURCE_DIR}/include
+	include
 
 	# Common includes
 	${COMMON_INCLUDE_DIRS}

@@ -1,62 +1,34 @@
-{
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "AURORA debug",
-            "type": "cppdbg",
-            "request": "launch",
-            "miDebuggerPath": "/opt/local/arm-toolchain/bin/arm-none-eabi-gdb",
-            "targetArchitecture": "ARM",
-            "program": "/Users/timurtaipov/workspace/aurora/build/Src/Aurora",
+{"configurations": [
+
+      {
+         "name": "OpenOCD & gdb",
+         "type": "cppdbg",
+         "request": "launch",
+         "program": "${workspaceRoot}/build/Src/Aurora",
+         "args": [],
+         "stopAtEntry": false,
+         "cwd": "${workspaceRoot}",
+         "environment": [],
+         "externalConsole": false,
+         "logging": {
+            "engineLogging":false,
+            "moduleLoad": true,
+            "exceptions": true
+         },
+         "osx": {
+            "MIMode": "gdb",
+            "miDebuggerPath":"/opt/local/arm-toolchain/bin/arm-none-eabi-gdb",            
+            "setupCommands": [
+                  {"text":"-target-select remote localhost:3333"},
+                  // {"text": "file ${workspaceRoot}/build/Src/Aurora"},
+                  {"text":"-interpreter-exec console \"monitor reset halt\""},
+                  {"text":"-interpreter-exec console \"monitor continue\""}
+                  // {"text":"-interpreter-exec console \"tbreak main\""},
+                  // {"text":"-interpreter-exec console \"monitor reg\""}
+                           ],
+            "launchCompleteCommand": "exec-continue"
             
-            "setupCommands": [
-                {"text": "target extended-remote localhost:3333"},
-                {"text": "monitor reset halt"},
-                {"text": "monitor flash write_image erase \"${workspaceRoot}/build/Src/Aurora\" "},
-                {"text": "file /Users/timurtaipov/workspace/aurora/build/Src/Aurora"},
-                {"text": "monitor reset halt"}
-            ],
-
-            "customLaunchSetupCommands": [
-                {"text": "monitor reset halt"}
-            ],
-
-            "launchCompleteCommand": "exec-continue",
-            "debugServerPath": "/usr/local/bin/openocd",
-            "debugServerArgs": "-c gdb_port 3333 -c telnet_port 4444 -f my_stm.cfg -c init -c reset",
-            "serverStarted": "Info\\ :\\ [\\w\\d\\.]*:\\ hardware",
-            "filterStderr": true,
-            "externalConsole": true,
-            "cwd": "${cwd}"
-        },
-
-        {
-            "name": "name the launch configuration 2 (CLR) here",
-            "type": "cppdbg",
-            "request": "launch",
-            "miDebuggerPath": "<path-to-gdb-insie-the-gcc-toolchain-mind-the-forward-slash>",
-            "targetArchitecture": "ARM",
-            "program": "<path-to-nanoCLR-ELF-file-in-the-build-folder-mind-the-forward-slash>",
-
-            "setupCommands": [
-                {"text": "target extended-remote localhost:3333"},
-                {"text": "monitor reset halt"},
-                {"text": "monitor flash write_image erase \"<path-to-nanoCLR-HEX-file-in-the-build-folder-mind-the-forward-slash>\" "},
-                {"text": "file <path-to-nanoCLR-ELF-file-in-the-build-folder-mind-the-forward-slash>"},
-                {"text": "monitor reset halt"}
-            ],
-
-            "customLaunchSetupCommands": [
-                {"text": "monitor reset halt"}
-            ],
-
-            "launchCompleteCommand": "exec-continue",
-            "debugServerPath": "C:/Program Files (x86)/openocd-0.10.0/bin/openocd.exe",
-            "debugServerArgs": "-s \"C:/Program Files (x86)/openocd-0.10.0/scripts/\" -f interface/<interface-config-file>.cfg -f board/<board-config-file>.cfg",
-            "serverStarted": "Info\\ :\\ [\\w\\d\\.]*:\\ hardware",
-            "filterStderr": true,
-            "externalConsole": true,
-            "cwd": "${cwd}"
-        }
-    ]
+         }
+      }
+   ]
 }

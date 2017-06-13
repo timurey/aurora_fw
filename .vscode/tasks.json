@@ -1,0 +1,72 @@
+{
+   // See https://go.microsoft.com/fwlink/?LinkId=733558
+   // for the documentation about the tasks.json format
+   "version": "0.1.0",
+   "command": "sh",
+   "isShellCommand": true,
+   "args": ["-c"],
+   "showOutput": "always",
+   "runner": "terminal",
+   "suppressTaskName": false,
+   "tasks": 
+   [
+        {
+            "isBuildCommand": true,
+            "suppressTaskName": true,
+            "taskName": "make",
+            "args": ["make\\ -C\\ build\\ -j\\ 5"],
+            "isBackground": false,
+            "problemMatcher": 
+            {
+                  "owner": "c",
+                  "fileLocation": "absolute",
+                  "pattern": 
+                  {
+                        "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "severity": 4,
+                        "message": 5
+                  }
+            }
+        },
+        {
+            "isBuildCommand": false,
+            "isTestCommand": true,            
+            "suppressTaskName": true,
+            "taskName": "flash",
+           "args" : ["/usr/local/bin/openocd\\ -f\\ my_stm.cfg\\ -c\\ \"program\\ build/Src/Aurora\\ verify\\ reset\\ exit\""]
+        },
+        {
+            "taskName": "clean",
+            "suppressTaskName": true,
+            "args": ["make\\ -C\\ build\\ clean"]
+        },
+        {
+            "taskName": "rebuild",
+            "suppressTaskName": true,
+            "args": ["make\\ -C\\ build\\ clean\\ all\\ -j\\ 5"],
+            "isBackground": false,
+            "problemMatcher": 
+            {
+                  "owner": "cpp",
+                  "fileLocation": ["relative", "${workspaceRoot"],
+                  "pattern": 
+                  {
+                        "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "severity": 4,
+                        "message": 5
+                  }
+            }
+       },
+        {
+           "taskName": "oocd",
+           "suppressTaskName": true,
+           "args" : ["/usr/local/bin/openocd\\ -f\\ my_stm.cfg\\ -c\\ init\\ -c\\ reset\\ -c\\ halt"]
+        }
+   ]
+}

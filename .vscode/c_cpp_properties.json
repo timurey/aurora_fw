@@ -62,7 +62,7 @@
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
-                "databaseFilename": "",
+                "databaseFilename": "${workspaceRoot}/.vscode/.browse.VC.db",
                 "path": [
                     "${workspaceRoot}",
                     "/opt/local/arm-toolchain/lib/gcc/arm-none-eabi/4.8.4/include"

@@ -7,9 +7,6 @@
 [submodule "lib/FreeRTOS"]
 	path = lib/FreeRTOS
 	url = git://github.com/timurey/FreeRTOS
-[submodule "lib/fatfs"]
-	path = lib/fatfs
-	url = git://github.com/timurey/fatfs
 [submodule "lib/jsmn-extras"]
 	path = lib/jsmn-extras
 	url = git://github.com/timurey/jsmn-extras

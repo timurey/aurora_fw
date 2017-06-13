@@ -15,8 +15,8 @@ extern __IO uint32_t uwTick;
 #undef errno
 extern int errno;
 
-char *__env[1] = { 0 };
-char **environ = __env;
+// char *__env[1] = { 0 };
+// char **environ = __env;
 
 int _write(int file, char *ptr, int len);
 

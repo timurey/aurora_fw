@@ -8,6 +8,8 @@ SET(SOURCE_FILES
 	./network.c
 	./_write.c
 	./newlib.c
+	./sdio.c
+
 	./driver/src/DataManager.c
 	./driver/src/DriverInterface.c
 
@@ -37,11 +39,7 @@ SET(SOURCE_FILES
 #	./onewire/onewire.c
 #	./onewire/onewire.h
 
-	./fatfs_extras/ff_gen_drv.c
-	./fatfs_extras/bsp_driver_sd.c
-	./fatfs_extras/sd_diskio.c
-	./fatfs_extras/sdio.c
-	./fatfs_extras/diskio.c
+	./bsp_driver_sd.c
 
 	./stm32f2xx_it.c
 
@@ -68,11 +66,12 @@ INCLUDE_DIRECTORIES(
 	./fatfs_extras
 	./stuff
 	./onewire
+
 )
 
 
 # Do not link to libc or newlib-nano - we are not using anything from that
-# SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
+SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --specs=nosys.specs")
 
 ADD_EXECUTABLE(Aurora ${SOURCE_FILES})
 

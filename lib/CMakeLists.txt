@@ -141,9 +141,12 @@ SET(STM32CUBE_F2_SRC
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_usb.c
 	# ${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Src/stm32f2xx_ll_utils.c
 
+
 )
 
 ADD_LIBRARY(STM32Cube_f2 STATIC ${STM32CUBE_F2_SRC})
+
+target_link_libraries (STM32Cube_f2 LINK_PUBLIC newlib)
 
 TARGET_INCLUDE_DIRECTORIES(STM32Cube_f2 PUBLIC
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Inc
@@ -425,15 +428,26 @@ TARGET_INCLUDE_DIRECTORIES(CycloneTCP PUBLIC
 )
 
 ###################
-# fatfs
+# fatfs is ap part of STM32Cube_f2
 ###################
 
-SET(FATFS_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/fatfs)
+SET(FATFS_SRC_DIR ${STM32CUBE_F2_SRC_DIR}/FatFs/src)
 
 SET(FATFS_SRC
-	${FATFS_SRC_DIR}/ff.c
-	${FATFS_SRC_DIR}/ffsystem.c
-	${FATFS_SRC_DIR}/ffunicode.c
+${FATFS_SRC_DIR}/diskio.c
+${FATFS_SRC_DIR}/drivers/sd_diskio.c
+# ${FATFS_SRC_DIR}/drivers/sdram_diskio.c
+# ${FATFS_SRC_DIR}/drivers/sram_diskio.c
+# ${FATFS_SRC_DIR}/drivers/usbh_diskio.c
+${FATFS_SRC_DIR}/ff.c
+${FATFS_SRC_DIR}/ff_gen_drv.c
+# ${FATFS_SRC_DIR}/option/cc932.c
+# ${FATFS_SRC_DIR}/option/cc936.c
+# ${FATFS_SRC_DIR}/option/cc949.c
+# ${FATFS_SRC_DIR}/option/cc950.c
+${FATFS_SRC_DIR}/option/ccsbcs.c
+${FATFS_SRC_DIR}/option/syscall.c
+${FATFS_SRC_DIR}/option/unicode.c
 )
 
 ADD_LIBRARY(Fatfs STATIC ${FATFS_SRC})
@@ -443,6 +457,7 @@ target_link_libraries (Fatfs LINK_PUBLIC Common)
 
 TARGET_INCLUDE_DIRECTORIES(Fatfs PUBLIC
 	${FATFS_SRC_DIR}
+	${FATFS_SRC_DIR}/drivers
 )
 
 ###################
@@ -501,3 +516,23 @@ target_link_libraries (list LINK_PUBLIC Common)
 TARGET_INCLUDE_DIRECTORIES(list PUBLIC
 	${LIST_SRC_DIR}
 )
+
+###################
+# newlib
+###################
+
+SET(NEWLIB_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/newlib)
+
+SET(NEWLIB_SRC
+	${NEWLIB_SRC_DIR}/_exit.c
+	${NEWLIB_SRC_DIR}/_sbrk.c
+	${NEWLIB_SRC_DIR}/_startup.c
+	${NEWLIB_SRC_DIR}/_syscalls.c
+	${NEWLIB_SRC_DIR}/assert.c
+)
+
+ADD_LIBRARY(newlib STATIC ${NEWLIB_SRC})
+
+# TARGET_INCLUDE_DIRECTORIES(newli PUBLIC
+# 	${LIST_SRC_DIR}
+# )

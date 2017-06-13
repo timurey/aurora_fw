@@ -1,0 +1,54 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "STM32 Load",
+            "type": "cppdbg",
+            "request": "launch",
+            "MIMode": "gdb",
+            "miDebuggerPath": "/opt/local/arm-toolchain/bin/arm-none-eabi-gdb",
+            "targetArchitecture": "arm",
+            "program": "${workspaceRoot}/build/Src/Aurora",
+            "cwd": "${workspaceRoot}",
+
+            // "debugServerPath": "/usr/local/bin/openocd",
+            // "debugServerArgs": "-c gdb_port 3333 -c telnet_port 4444 -f my_stm.cfg -c init -c reset ",
+
+            // "launchCompleteCommand": "None",
+            "setupCommands": [
+                {"text": "target remote localhost:3333"},
+                {"text": "file ${workspaceRoot}/build/Src/Aurora"},
+                {"text": "monitor reset init"},
+                {"text": "monitor reset halt"},
+                {"text": "load"},
+                {"text": "break main"}
+            ]
+
+            //Uncomment this to debug
+            // ,"logging": { "engineLogging": true }
+            //or this for verbose debug
+            // ,"logging": { "engineLogging": true, "trace": true, "traceResponse": true }
+        },
+        {
+            "name": "MIPS Attach",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/program.elf",
+            "cwd": "${fileDirname}",
+            "miDebuggerPath": "d:/CODESC~1/TOOLCH~1/mips-mti-elf/2015.06-05/bin/mips-mti-elf-gdb.exe",
+            "setupCommands": [
+                {"text": "file 'D:/mipsfpga-plus/programs/00_counter/program.elf'"},
+                {"text": "target remote localhost:3333"},
+                {"text": "set endian little"}
+            ],
+            "customLaunchSetupCommands": [],
+            "launchCompleteCommand": "None",
+            "targetArchitecture": "mips"
+
+            //Uncomment this to debug
+            //,"logging": { "engineLogging": true }
+            //or this for verbose debug
+            //,"logging": { "engineLogging": true, "trace": true, "traceResponse": true }
+        }
+    ]
+}

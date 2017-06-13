@@ -1,25 +1,19 @@
-// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-//
-// This file is part of the GNU ARM Eclipse distribution.
-// Copyright (c) 2014 Liviu Ionescu.
-//
-
-// ----------------------------------------------------------------------------
-
-#include "stm32f2xx_hal.h"
 #include "main.h"
+#include "stm32f2xx_hal.h"
+#include "fatfs.h"
+#include "rtc.h"
+#include "sdio.h"
 
-//#include "mem.h"
+
 
 void driverTask (void *pvParameters);
 
-
+void __attribute__ ((weak)) _init(void)  {}
 // ----- main() ---------------------------------------------------------------
 
 
 int main(void)
-
+  
 {
    
    HAL_Init();
@@ -27,9 +21,9 @@ int main(void)
    RTC_Init();
    /* Configure the system clock to 120 MHz */
    SystemClock_Config();
-
-   osCreateTask("Blinker", vBlinker, NULL, configMINIMAL_STACK_SIZE*4, 4);
-   osCreateTask("startup", startup_task, NULL, configMINIMAL_STACK_SIZE*2, 3);
+    // MX_SDIO_SD_Init();
+   osCreateTask("Blinker", vBlinker, NULL, 38, 3);
+   osCreateTask("startup", startup_task, NULL, configMINIMAL_STACK_SIZE*2, 4);
    osCreateTask("Network_Services", networkServices, NULL, configMINIMAL_STACK_SIZE*4, 1);
    //   osCreateTask("driver_task", driverTask, NULL, configMINIMAL_STACK_SIZE, 1);
 
@@ -58,7 +52,6 @@ void startup_task (void *pvParameters)
 
    xdev_out(putchar);
    
-   _write (1, "!!!", 3);
 
    MX_SDIO_SD_Init();
    FATFS_LinkDriver(&SD_Driver, SD_Path);
@@ -166,3 +159,12 @@ void SDIO_IRQHandler(void)
 }
 
 
+void _Error_Handler(char * file, int line)
+{
+  /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
+  while(1) 
+  {
+  }
+  /* USER CODE END Error_Handler_Debug */ 
+}
