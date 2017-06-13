@@ -19,6 +19,189 @@
             "targets": [
               {
                 "artifacts": [
+                  "/Users/timurtaipov/workspace/aurora/build/Lib/libCommon.a"
+                ],
+                "buildDirectory": "/Users/timurtaipov/workspace/aurora/build/Lib",
+                "fileGroups": [
+                  {
+                    "compileFlags": "-mcpu=cortex-m3 -mthumb -fmessage-length=0 -ffunction-sections -fdata-sections -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -std=c11 -Wmissing-prototypes -Wstrict-prototypes -Wbad-function-cast  -Og -g3  ",
+                    "defines": [
+                      "DEBUG",
+                      "HSE_VALUE=25000000",
+                      "STM32F205xx",
+                      "USE_FULL_ASSERT",
+                      "USE_USB_FS",
+                      "_WANT_IO_C99_FORMATS"
+                    ],
+                    "includePath": [
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/include"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/Common"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/include"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/portable/GCC/ARM_CM3"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/CMSIS_RTOS"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/CMSIS/Device/ST/STM32F2xx/Include"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/CMSIS/Include"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/FatFs/src"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/FatFs/src/drivers"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/STM32F2xx_HAL_Driver/Inc"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "C",
+                    "sources": [
+                      "Common/cpu_endian.c",
+                      "Common/fs_port_fatfs.c",
+                      "Common/str.c",
+                      "Common/date_time.c",
+                      "Common/path.c",
+                      "Common/debug.c",
+                      "Common/os_port_freertos.c",
+                      "Common/resource_manager.c"
+                    ]
+                  }
+                ],
+                "fullName": "libCommon.a",
+                "linkerLanguage": "C",
+                "name": "Common",
+                "sourceDirectory": "/Users/timurtaipov/workspace/aurora/Lib",
+                "type": "STATIC_LIBRARY"
+              },
+              {
+                "artifacts": [
+                  "/Users/timurtaipov/workspace/aurora/build/Lib/libCycloneTCP.a"
+                ],
+                "buildDirectory": "/Users/timurtaipov/workspace/aurora/build/Lib",
+                "fileGroups": [
+                  {
+                    "compileFlags": "-mcpu=cortex-m3 -mthumb -fmessage-length=0 -ffunction-sections -fdata-sections -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -std=c11 -Wmissing-prototypes -Wstrict-prototypes -Wbad-function-cast  -Og -g3  ",
+                    "defines": [
+                      "DEBUG",
+                      "HSE_VALUE=25000000",
+                      "STM32F205xx",
+                      "USE_FULL_ASSERT",
+                      "USE_USB_FS",
+                      "_WANT_IO_C99_FORMATS"
+                    ],
+                    "includePath": [
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/include"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/CycloneTCP"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/Common"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/include"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/portable/GCC/ARM_CM3"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/CMSIS_RTOS"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/CMSIS/Device/ST/STM32F2xx/Include"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/CMSIS/Include"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/FatFs/src"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/FatFs/src/drivers"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/STM32F2xx_HAL_Driver/Inc"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "C",
+                    "sources": [
+                      "CycloneTCP/core/bsd_socket.c",
+                      "CycloneTCP/core/ethernet.c",
+                      "CycloneTCP/core/ip.c",
+                      "CycloneTCP/core/net.c",
+                      "CycloneTCP/core/net_mem.c",
+                      "CycloneTCP/core/nic.c",
+                      "CycloneTCP/core/ping.c",
+                      "CycloneTCP/core/raw_socket.c",
+                      "CycloneTCP/core/socket.c",
+                      "CycloneTCP/core/tcp.c",
+                      "CycloneTCP/core/tcp_fsm.c",
+                      "CycloneTCP/core/tcp_misc.c",
+                      "CycloneTCP/core/tcp_timer.c",
+                      "CycloneTCP/core/udp.c",
+                      "CycloneTCP/dhcp/dhcp_client.c",
+                      "CycloneTCP/dhcp/dhcp_common.c",
+                      "CycloneTCP/dhcp/dhcp_debug.c",
+                      "CycloneTCP/dhcp/dhcp_server.c",
+                      "CycloneTCP/dhcpv6/dhcpv6_client.c",
+                      "CycloneTCP/dhcpv6/dhcpv6_common.c",
+                      "CycloneTCP/dhcpv6/dhcpv6_debug.c",
+                      "CycloneTCP/dhcpv6/dhcpv6_relay.c",
+                      "CycloneTCP/dns/dns_cache.c",
+                      "CycloneTCP/dns/dns_client.c",
+                      "CycloneTCP/dns/dns_common.c",
+                      "CycloneTCP/dns/dns_debug.c",
+                      "CycloneTCP/dns_sd/dns_sd.c",
+                      "CycloneTCP/drivers/enc28j60.c",
+                      "CycloneTCP/drivers/ext_int_driver.c",
+                      "CycloneTCP/drivers/spi_driver.c",
+                      "CycloneTCP/ftp/ftp_server.c",
+                      "CycloneTCP/ftp/ftp_server_commands.c",
+                      "CycloneTCP/ftp/ftp_server_events.c",
+                      "CycloneTCP/ftp/ftp_server_misc.c",
+                      "CycloneTCP/http/http_server.c",
+                      "CycloneTCP/http/http_server_auth.c",
+                      "CycloneTCP/http/http_server_misc.c",
+                      "CycloneTCP/http/mime.c",
+                      "CycloneTCP/http/ssi.c",
+                      "CycloneTCP/ipv4/arp.c",
+                      "CycloneTCP/ipv4/auto_ip.c",
+                      "CycloneTCP/ipv4/icmp.c",
+                      "CycloneTCP/ipv4/igmp.c",
+                      "CycloneTCP/ipv4/ipv4.c",
+                      "CycloneTCP/ipv4/ipv4_frag.c",
+                      "CycloneTCP/mdns/mdns_client.c",
+                      "CycloneTCP/mdns/mdns_common.c",
+                      "CycloneTCP/mdns/mdns_responder.c",
+                      "CycloneTCP/netbios/nbns_client.c",
+                      "CycloneTCP/netbios/nbns_common.c",
+                      "CycloneTCP/netbios/nbns_responder.c",
+                      "CycloneTCP/sntp/sntp_client.c"
+                    ]
+                  }
+                ],
+                "fullName": "libCycloneTCP.a",
+                "linkerLanguage": "C",
+                "name": "CycloneTCP",
+                "sourceDirectory": "/Users/timurtaipov/workspace/aurora/Lib",
+                "type": "STATIC_LIBRARY"
+              },
+              {
+                "artifacts": [
                   "/Users/timurtaipov/workspace/aurora/build/Lib/libJsmn_extras.a"
                 ],
                 "buildDirectory": "/Users/timurtaipov/workspace/aurora/build/Lib",
@@ -53,6 +236,72 @@
                 "fullName": "libJsmn_extras.a",
                 "linkerLanguage": "C",
                 "name": "Jsmn_extras",
+                "sourceDirectory": "/Users/timurtaipov/workspace/aurora/Lib",
+                "type": "STATIC_LIBRARY"
+              },
+              {
+                "artifacts": [
+                  "/Users/timurtaipov/workspace/aurora/build/Lib/liblist.a"
+                ],
+                "buildDirectory": "/Users/timurtaipov/workspace/aurora/build/Lib",
+                "fileGroups": [
+                  {
+                    "compileFlags": "-mcpu=cortex-m3 -mthumb -fmessage-length=0 -ffunction-sections -fdata-sections -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -std=c11 -Wmissing-prototypes -Wstrict-prototypes -Wbad-function-cast  -Og -g3  ",
+                    "defines": [
+                      "DEBUG",
+                      "HSE_VALUE=25000000",
+                      "STM32F205xx",
+                      "USE_FULL_ASSERT",
+                      "USE_USB_FS",
+                      "_WANT_IO_C99_FORMATS"
+                    ],
+                    "includePath": [
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/include"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/list"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/Common"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/include"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/portable/GCC/ARM_CM3"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/CMSIS_RTOS"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/CMSIS/Device/ST/STM32F2xx/Include"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/CMSIS/Include"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/FatFs/src"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/FatFs/src/drivers"
+                      },
+                      {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/STM32F2xx_HAL_Driver/Inc"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "C",
+                    "sources": [
+                      "list/list_iterator.c",
+                      "list/list_node.c",
+                      "list/list.c"
+                    ]
+                  }
+                ],
+                "fullName": "liblist.a",
+                "linkerLanguage": "C",
+                "name": "list",
                 "sourceDirectory": "/Users/timurtaipov/workspace/aurora/Lib",
                 "type": "STATIC_LIBRARY"
               },
@@ -302,112 +551,6 @@
               },
               {
                 "artifacts": [
-                  "/Users/timurtaipov/workspace/aurora/build/Lib/libCommon.a"
-                ],
-                "buildDirectory": "/Users/timurtaipov/workspace/aurora/build/Lib",
-                "fileGroups": [
-                  {
-                    "compileFlags": "-mcpu=cortex-m3 -mthumb -fmessage-length=0 -ffunction-sections -fdata-sections -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -std=c11 -Wmissing-prototypes -Wstrict-prototypes -Wbad-function-cast  -Og -g3  ",
-                    "defines": [
-                      "DEBUG",
-                      "HSE_VALUE=25000000",
-                      "STM32F205xx",
-                      "USE_FULL_ASSERT",
-                      "USE_USB_FS",
-                      "_WANT_IO_C99_FORMATS"
-                    ],
-                    "includePath": [
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/include"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/Common"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/include"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/portable/GCC/ARM_CM3"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/CMSIS_RTOS"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/CMSIS/Device/ST/STM32F2xx/Include"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/CMSIS/Include"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/FatFs/src"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/FatFs/src/drivers"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/STM32F2xx_HAL_Driver/Inc"
-                      }
-                    ],
-                    "isGenerated": false,
-                    "language": "C",
-                    "sources": [
-                      "Common/cpu_endian.c",
-                      "Common/fs_port_fatfs.c",
-                      "Common/str.c",
-                      "Common/date_time.c",
-                      "Common/path.c",
-                      "Common/debug.c",
-                      "Common/os_port_freertos.c",
-                      "Common/resource_manager.c"
-                    ]
-                  }
-                ],
-                "fullName": "libCommon.a",
-                "linkerLanguage": "C",
-                "name": "Common",
-                "sourceDirectory": "/Users/timurtaipov/workspace/aurora/Lib",
-                "type": "STATIC_LIBRARY"
-              },
-              {
-                "artifacts": [
-                  "/Users/timurtaipov/workspace/aurora/build/Lib/libnewlib.a"
-                ],
-                "buildDirectory": "/Users/timurtaipov/workspace/aurora/build/Lib",
-                "fileGroups": [
-                  {
-                    "compileFlags": "-mcpu=cortex-m3 -mthumb -fmessage-length=0 -ffunction-sections -fdata-sections -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -std=c11 -Wmissing-prototypes -Wstrict-prototypes -Wbad-function-cast  -Og -g3  ",
-                    "defines": [
-                      "DEBUG",
-                      "HSE_VALUE=25000000",
-                      "STM32F205xx",
-                      "USE_FULL_ASSERT",
-                      "USE_USB_FS",
-                      "_WANT_IO_C99_FORMATS"
-                    ],
-                    "includePath": [
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/include"
-                      }
-                    ],
-                    "isGenerated": false,
-                    "language": "C",
-                    "sources": [
-                      "newlib/_exit.c",
-                      "newlib/_sbrk.c",
-                      "newlib/_startup.c",
-                      "newlib/_syscalls.c",
-                      "newlib/assert.c"
-                    ]
-                  }
-                ],
-                "fullName": "libnewlib.a",
-                "linkerLanguage": "C",
-                "name": "newlib",
-                "sourceDirectory": "/Users/timurtaipov/workspace/aurora/Lib",
-                "type": "STATIC_LIBRARY"
-              },
-              {
-                "artifacts": [
                   "/Users/timurtaipov/workspace/aurora/build/Lib/libUSBLib.a"
                 ],
                 "buildDirectory": "/Users/timurtaipov/workspace/aurora/build/Lib",
@@ -589,13 +732,16 @@
                         "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/STM32F2xx_HAL_Driver/Inc"
                       },
                       {
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/Common"
+                      },
+                      {
                         "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/FatFs/src"
                       },
                       {
                         "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/FatFs/src/drivers"
                       },
                       {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/Common"
+                        "path": "/Users/timurtaipov/workspace/aurora/Lib/xprintf"
                       }
                     ],
                     "isGenerated": false,
@@ -603,6 +749,7 @@
                     "sources": [
                       "adc.c",
                       "blink.c",
+                      "ff_demo.c",
                       "freertos.c",
                       "rtc.c",
                       "stm32f2xx_it.c",
@@ -620,14 +767,15 @@
                       "main.c",
                       "stm32f2xx_hal_timebase_TIM.c",
                       "usart.c",
-                      "usbd_desc.c"
+                      "usbd_desc.c",
+                      "_write.c"
                     ]
                   }
                 ],
                 "fullName": "Aurora",
-                "linkFlags": "-mcpu=cortex-m3 -mthumb -fmessage-length=0 -ffunction-sections -fdata-sections -Wall  --specs=nosys.specs  -Xlinker -Map -Xlinker output.map  \"-T/Users/timurtaipov/workspace/aurora/build/Src/Aurora_flash.ld\"",
+                "linkFlags": "-mcpu=cortex-m3 -mthumb -fmessage-length=0 -ffunction-sections -fdata-sections -Wall  --specs=nosys.specs  -flto -Xlinker -Map -Xlinker output.map  \"-T/Users/timurtaipov/workspace/aurora/build/Src/Aurora_flash.ld\"",
                 "linkLanguageFlags": "-mcpu=cortex-m3 -mthumb -fmessage-length=0 -ffunction-sections -fdata-sections -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -std=c11 -Wmissing-prototypes -Wstrict-prototypes -Wbad-function-cast  -Og -g3",
-                "linkLibraries": "../Lib/libFreeRTOS.a ../Lib/libUSBLib.a ../Lib/libSTM32Cube_f2.a ../Lib/libcmsis.a ../Lib/libFatfs.a ../Lib/libCommon.a ../Lib/libFatfs.a ../Lib/libCommon.a ../Lib/libFreeRTOS.a ../Lib/libSTM32Cube_f2.a ../Lib/libcmsis.a",
+                "linkLibraries": "../Lib/libFreeRTOS.a ../Lib/libUSBLib.a ../Lib/libSTM32Cube_f2.a ../Lib/libcmsis.a ../Lib/libCommon.a ../Lib/libFatfs.a ../Lib/libxprintf.a ../Lib/libCommon.a ../Lib/libFatfs.a ../Lib/libFreeRTOS.a ../Lib/libSTM32Cube_f2.a ../Lib/libcmsis.a",
                 "linkerLanguage": "C",
                 "name": "Aurora",
                 "sourceDirectory": "/Users/timurtaipov/workspace/aurora/Src",
@@ -680,194 +828,13 @@
                 "name": "Aurora.dump",
                 "sourceDirectory": "/Users/timurtaipov/workspace/aurora/Src",
                 "type": "UTILITY"
-              },
-              {
-                "artifacts": [
-                  "/Users/timurtaipov/workspace/aurora/build/Lib/liblist.a"
-                ],
-                "buildDirectory": "/Users/timurtaipov/workspace/aurora/build/Lib",
-                "fileGroups": [
-                  {
-                    "compileFlags": "-mcpu=cortex-m3 -mthumb -fmessage-length=0 -ffunction-sections -fdata-sections -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -std=c11 -Wmissing-prototypes -Wstrict-prototypes -Wbad-function-cast  -Og -g3  ",
-                    "defines": [
-                      "DEBUG",
-                      "HSE_VALUE=25000000",
-                      "STM32F205xx",
-                      "USE_FULL_ASSERT",
-                      "USE_USB_FS",
-                      "_WANT_IO_C99_FORMATS"
-                    ],
-                    "includePath": [
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/include"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/list"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/Common"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/include"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/portable/GCC/ARM_CM3"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/CMSIS_RTOS"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/CMSIS/Device/ST/STM32F2xx/Include"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/CMSIS/Include"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/FatFs/src"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/FatFs/src/drivers"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/STM32F2xx_HAL_Driver/Inc"
-                      }
-                    ],
-                    "isGenerated": false,
-                    "language": "C",
-                    "sources": [
-                      "list/list_iterator.c",
-                      "list/list_node.c",
-                      "list/list.c"
-                    ]
-                  }
-                ],
-                "fullName": "liblist.a",
-                "linkerLanguage": "C",
-                "name": "list",
-                "sourceDirectory": "/Users/timurtaipov/workspace/aurora/Lib",
-                "type": "STATIC_LIBRARY"
-              },
-              {
-                "artifacts": [
-                  "/Users/timurtaipov/workspace/aurora/build/Lib/libCycloneTCP.a"
-                ],
-                "buildDirectory": "/Users/timurtaipov/workspace/aurora/build/Lib",
-                "fileGroups": [
-                  {
-                    "compileFlags": "-mcpu=cortex-m3 -mthumb -fmessage-length=0 -ffunction-sections -fdata-sections -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -std=c11 -Wmissing-prototypes -Wstrict-prototypes -Wbad-function-cast  -Og -g3  ",
-                    "defines": [
-                      "DEBUG",
-                      "HSE_VALUE=25000000",
-                      "STM32F205xx",
-                      "USE_FULL_ASSERT",
-                      "USE_USB_FS",
-                      "_WANT_IO_C99_FORMATS"
-                    ],
-                    "includePath": [
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/include"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/CycloneTCP"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/Common"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/include"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/portable/GCC/ARM_CM3"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/FreeRTOS/CMSIS_RTOS"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/CMSIS/Device/ST/STM32F2xx/Include"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/CMSIS/Include"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/FatFs/src"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/FatFs/src/drivers"
-                      },
-                      {
-                        "path": "/Users/timurtaipov/workspace/aurora/Lib/stm32cube_f2/STM32F2xx_HAL_Driver/Inc"
-                      }
-                    ],
-                    "isGenerated": false,
-                    "language": "C",
-                    "sources": [
-                      "CycloneTCP/core/bsd_socket.c",
-                      "CycloneTCP/core/ethernet.c",
-                      "CycloneTCP/core/ip.c",
-                      "CycloneTCP/core/net.c",
-                      "CycloneTCP/core/net_mem.c",
-                      "CycloneTCP/core/nic.c",
-                      "CycloneTCP/core/ping.c",
-                      "CycloneTCP/core/raw_socket.c",
-                      "CycloneTCP/core/socket.c",
-                      "CycloneTCP/core/tcp.c",
-                      "CycloneTCP/core/tcp_fsm.c",
-                      "CycloneTCP/core/tcp_misc.c",
-                      "CycloneTCP/core/tcp_timer.c",
-                      "CycloneTCP/core/udp.c",
-                      "CycloneTCP/dhcp/dhcp_client.c",
-                      "CycloneTCP/dhcp/dhcp_common.c",
-                      "CycloneTCP/dhcp/dhcp_debug.c",
-                      "CycloneTCP/dhcp/dhcp_server.c",
-                      "CycloneTCP/dhcpv6/dhcpv6_client.c",
-                      "CycloneTCP/dhcpv6/dhcpv6_common.c",
-                      "CycloneTCP/dhcpv6/dhcpv6_debug.c",
-                      "CycloneTCP/dhcpv6/dhcpv6_relay.c",
-                      "CycloneTCP/dns/dns_cache.c",
-                      "CycloneTCP/dns/dns_client.c",
-                      "CycloneTCP/dns/dns_common.c",
-                      "CycloneTCP/dns/dns_debug.c",
-                      "CycloneTCP/dns_sd/dns_sd.c",
-                      "CycloneTCP/drivers/enc28j60.c",
-                      "CycloneTCP/drivers/ext_int_driver.c",
-                      "CycloneTCP/drivers/spi_driver.c",
-                      "CycloneTCP/ftp/ftp_server.c",
-                      "CycloneTCP/ftp/ftp_server_commands.c",
-                      "CycloneTCP/ftp/ftp_server_events.c",
-                      "CycloneTCP/ftp/ftp_server_misc.c",
-                      "CycloneTCP/http/http_server.c",
-                      "CycloneTCP/http/http_server_auth.c",
-                      "CycloneTCP/http/http_server_misc.c",
-                      "CycloneTCP/http/mime.c",
-                      "CycloneTCP/http/ssi.c",
-                      "CycloneTCP/ipv4/arp.c",
-                      "CycloneTCP/ipv4/auto_ip.c",
-                      "CycloneTCP/ipv4/icmp.c",
-                      "CycloneTCP/ipv4/igmp.c",
-                      "CycloneTCP/ipv4/ipv4.c",
-                      "CycloneTCP/ipv4/ipv4_frag.c",
-                      "CycloneTCP/mdns/mdns_client.c",
-                      "CycloneTCP/mdns/mdns_common.c",
-                      "CycloneTCP/mdns/mdns_responder.c",
-                      "CycloneTCP/netbios/nbns_client.c",
-                      "CycloneTCP/netbios/nbns_common.c",
-                      "CycloneTCP/netbios/nbns_responder.c",
-                      "CycloneTCP/sntp/sntp_client.c"
-                    ]
-                  }
-                ],
-                "fullName": "libCycloneTCP.a",
-                "linkerLanguage": "C",
-                "name": "CycloneTCP",
-                "sourceDirectory": "/Users/timurtaipov/workspace/aurora/Lib",
-                "type": "STATIC_LIBRARY"
               }
             ]
           }
         ]
       }
     ],
-    "cookie": "0.2129258471021851",
+    "cookie": "0.3741681794381151",
     "inReplyTo": "codemodel",
     "type": "reply"
   }

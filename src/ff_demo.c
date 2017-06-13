@@ -139,19 +139,19 @@ void FatFsTask(void const * argument)
 	/* Enable UART1 and attach it to xprintf module for console */
 
 
-	xputs("STM32F205 test monitor\n");
+	xputs(""PRIdefault"STM32F205 test monitor\n");
 	xputs(_USE_LFN ? "LFN Enabled" : "LFN Disabled");
 	xprintf(", Code page: %u\n", _CODE_PAGE);
 
 	/* Initiazlize RTC */
 
 	getCurrentDate(&rtc);
-	xprintf("Current time is %u/%u/%u %2u:%02u:%02u.\n", rtc.year, rtc.month, rtc.day, rtc.hours, rtc.minutes, rtc.seconds);
+	xprintf("Current time is %u/%u/%u %2u"PRIblink":"PRIsteady"%02u"PRIblink":"PRIsteady"%02u.\n", rtc.year, rtc.month, rtc.day, rtc.hours, rtc.minutes, rtc.seconds);
 
 
 
 	for (;;) {
-		xputc('>');
+		xputs(""PRIfgRed">"PRIdefault"");
 		xgets(Line, sizeof Line);
 
 		ptr = Line;

@@ -21,7 +21,8 @@ SET(SOURCE_FILES
 	./usbd_conf.c
 	./fatfs.c
 	./main.c
-	./stm32f2xx_hal_timebase_TIM.c usart.c
+	./stm32f2xx_hal_timebase_TIM.c
+	./usart.c
 	./usbd_desc.c
 	./_write.c
 
