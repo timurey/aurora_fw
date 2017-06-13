@@ -1,15 +1,15 @@
 [submodule "lib/Common"]
 	path = lib/Common
-	url = git://github.com/timurey/Common
+	url = https://github.com/timurey/Common
 [submodule "lib/CycloneTCP"]
 	path = lib/CycloneTCP
-	url = git://github.com/timurey/CycloneTCP
+	url = https://github.com/timurey/CycloneTCP
 [submodule "lib/FreeRTOS"]
 	path = lib/FreeRTOS
-	url = git://github.com/timurey/FreeRTOS
+	url = https://github.com/timurey/FreeRTOS
 [submodule "lib/jsmn-extras"]
 	path = lib/jsmn-extras
-	url = git://github.com/timurey/jsmn-extras
+	url = https://github.com/timurey/jsmn-extras
 [submodule "lib/stm32cube_f2"]
 	path = lib/stm32cube_f2
 	url = https://github.com/timurey/stm32cube_f2
