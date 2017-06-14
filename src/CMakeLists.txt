@@ -4,8 +4,6 @@
 SET(SOURCE_FILES
 	
 	./adc.c
-	./blink.c
-	./ff_demo.c
 	./freertos.c
 	./rtc.c
 	./stm32f2xx_it.c
@@ -25,17 +23,15 @@ SET(SOURCE_FILES
 	./usart.c
 	./usbd_desc.c
 	./_write.c
-
+#tasks
+	./tasks/blink.c
+	./tasks/ff_demo.c
+	./tasks/network.c
 )
 
 INCLUDE_DIRECTORIES(
 	.
-	./driver/include
-	# ./CycloneTCP_extras
-	# ./fatfs_extras
-	./stuff
-	./onewire
-
+	./tasks
 )
 
 
@@ -51,10 +47,10 @@ TARGET_LINK_LIBRARIES(Aurora LINK_PUBLIC
 	cmsis
 	Common
 	Fatfs
-	# CycloneTCP
-	# Jsmn_extras
+	configs
+	CycloneTCP
+	utils
 	xprintf
-	# list
 )
 
 STM32_SET_TARGET_PROPERTIES(Aurora)

@@ -52,6 +52,7 @@
 #include "cmsis_os.h"
 #include "blink.h"
 #include "ff_demo.h"
+#include "network.h"
 /* USER CODE BEGIN Includes */     
 
 /* USER CODE END Includes */
@@ -103,10 +104,13 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_THREADS */
   osThreadDef(blinkTask, BlinkTask, osPriorityNormal, 0, 128);
   blinkTaskHandle = osThreadCreate(osThread(blinkTask), NULL);
-  /* USER CODE END RTOS_THREADS */
 
-  osThreadDef(fatfsTask, FatFsTask, osPriorityNormal, 0, 128*8);
+  osThreadDef(fatfsTask, FatFsTask, osPriorityLow, 0, 128*8);
   fatfsTaskHandle = osThreadCreate(osThread(fatfsTask), NULL);
+
+  osThreadDef(networkTask, NetworkTask, osPriorityNormal, 0, 128*4);
+  networkTaskHandle = osThreadCreate(osThread(networkTask), NULL);
+    /* USER CODE END RTOS_THREADS */
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
@@ -126,7 +130,7 @@ void StartDefaultTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */
 }

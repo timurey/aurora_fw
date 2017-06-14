@@ -191,10 +191,13 @@
 #define FTP_SERVER_DATA_SOCKET_BUFFER_SIZE 1430
 #define FTP_SERVER_BUFFER_SIZE 1536
 
-//#define AUTO_IP_SUPPORT ENABLED
+#define AUTO_IP_SUPPORT ENABLED
 
 #define DNS_CACHE_SIZE 4
 
 //#define NET_TASK_STACK_SIZE 550*4
 //#define NET_TASK_PRIORITY 5
+#include "xprintf.h"
+#define TRACE_PRINTF(...) osSuspendAllTasks(), xprintf(__VA_ARGS__), osResumeAllTasks()
+
 #endif

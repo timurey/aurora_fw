@@ -84,12 +84,13 @@ INCLUDE_DIRECTORIES(
 	${LIST_INCLUDE_DIRS}
 
 	# Common includes
-	include
+	./include
+	${AURORA_INCLUDE_DIRS}
 
 	# Common includes
 	${COMMON_INCLUDE_DIRS}
 
 )
 
-ADD_SUBDIRECTORY(Lib)
-ADD_SUBDIRECTORY(Src)
+ADD_SUBDIRECTORY(lib)
+ADD_SUBDIRECTORY(src)

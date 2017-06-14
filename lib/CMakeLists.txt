@@ -444,7 +444,7 @@ ADD_LIBRARY(CycloneTCP STATIC ${CYCLONETCP_SRC})
 
 target_link_libraries (CycloneTCP LINK_PUBLIC Common)
 target_link_libraries (CycloneTCP LINK_PUBLIC STM32Cube_f2)
-
+target_link_libraries (CycloneTCP LINK_PUBLIC xprintf)
 TARGET_INCLUDE_DIRECTORIES(CycloneTCP PUBLIC
 	${CYCLONETCP_SRC_DIR}
 )
@@ -537,4 +537,41 @@ target_link_libraries (list LINK_PUBLIC Common)
 
 TARGET_INCLUDE_DIRECTORIES(list PUBLIC
 	${LIST_SRC_DIR}
+)
+
+###################
+# configs
+###################
+
+SET(CONFIGS_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/configs)
+
+SET(CONFIGS_SRC
+	${CONFIGS_SRC_DIR}/configs.c
+)
+
+ADD_LIBRARY(configs STATIC ${CONFIGS_SRC})
+
+target_link_libraries (configs LINK_PUBLIC Common)
+target_link_libraries (configs LINK_PUBLIC Jsmn_extras)
+
+TARGET_INCLUDE_DIRECTORIES(configs PUBLIC
+	${CONFIGS_SRC_DIR}
+)
+
+###################
+# utils
+###################
+
+SET(UTILS_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/utils)
+
+SET(UTILS_SRC
+	${UTILS_SRC_DIR}/uuid.c
+)
+
+ADD_LIBRARY(utils STATIC ${UTILS_SRC})
+
+target_link_libraries (utils LINK_PUBLIC Common)
+
+TARGET_INCLUDE_DIRECTORIES(utils PUBLIC
+	${UTILS_SRC_DIR}
 )
