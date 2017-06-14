@@ -8,12 +8,12 @@
 #include "configs.h"
 #include "uuid.h"
 #include "xprintf.h"
-#include "debug.h"
-
+#include "log.h"
+#include "httpd.h"
 /* User's defines ------------------------------------------------------------*/
 #define APP_MAC_ADDR_LEN 18
  
-register_defalt_config( "{\"ipv4\":{\"useipv4\":true,\"usedhcp\":true,\"useautoip\":true,\"address\":\"192.168.1.211\",\"netmask\":\"255.255.255.0\",\"gateway\":\"192.168.1.1\",\"primarydns\":\"192.168.1.1\",\"secondarydns\":\"8.8.8.8\"},\"ipv6\":{\"useipv6\":false,\"useslaac\":false,\"linklocaladdress\":\"fe80::107\",\"ipv6prefix\":\"2001:db8::\",\"ipv6prefixlength\":64,\"ipv6globaladdress\":\"2001:db8::107\",\"ipv6router\":\"fe80::1\",\"ipv6primarydns\":\"2001:4860:4860::8888\",\"ipv6secondarydns\":\"2001:4860:486\"}}");
+register_defalt_config( "{\"ipv4\":{\"useipv4\":true,\"usedhcp\":true,\"address\":\"192.168.1.211\",\"netmask\":\"255.255.255.0\",\"gateway\":\"192.168.1.1\",\"primarydns\":\"192.168.1.1\",\"secondarydns\":\"8.8.8.8\"},\"ipv6\":{\"useipv6\":false,\"useslaac\":false,\"linklocaladdress\":\"fe80::107\",\"ipv6prefix\":\"2001:db8::\",\"ipv6prefixlength\":64,\"ipv6globaladdress\":\"2001:db8::107\",\"ipv6router\":\"fe80::1\",\"ipv6primarydns\":\"2001:4860:4860::8888\",\"ipv6secondarydns\":\"2001:4860:486\"}}");
 
 
 /* Variables -----------------------------------------------------------------*/
@@ -98,7 +98,7 @@ static error_t networkConfigure (void)
    error_t error;
    error = read_default(&defaultConfig, &parseNetwork);
 
-//    error = read_config("/config/lan.json",&parseNetwork);
+   error = read_config("/config/lan.json",&parseNetwork);
    return error;
 }
 
@@ -129,7 +129,7 @@ static error_t parseNetwork(jsmnParserStruct * jsonParser, configMode mode)
    {
       parseIpv4Config(jsonParser);
    }
-   
+
 #if IPV6_SUPPORT == ENABLED
    networkContext.useIpV6 = jsmn_get_bool(data, jSMNtokens, resultCode, "$.ipv6.useipv6");
    if (networkContext.useIpV6 == TRUE)
@@ -170,7 +170,7 @@ void NetworkTask(void const *argument)
 #if (FTP_SERVER_SUPPORT == ENABLED)
     // ftpdConfigure();
 #endif
-    // httpdConfigure();
+    httpdConfigure();
 
     configDeinit();
 
@@ -181,7 +181,7 @@ void NetworkTask(void const *argument)
 #if (FTP_SERVER_SUPPORT == ENABLED)
     // ftpdStart();
 #endif
-    // httpdStart();
+    httpdStart();
 
     //   vTaskDelay(1000);
 
@@ -211,13 +211,7 @@ static error_t networkStart(void)
    char *pHostname = &(networkContext.hostname[0]);
    char *pName  = &name[0];
 
-   xprintf("\r\nSystem clock: %uHz\n", SystemCoreClock);
-   xprintf("**********************************\r\n");
-   xprintf("*** CycloneTCP Web Server Demo ***\r\n");
-   xprintf("**********************************\r\n");
-   xprintf("Copyright: 2017 timurey\r\n");
-   xprintf("Compiled: %s %s\r\n", __DATE__, __TIME__);
-   xprintf("Target: STM32f205\r\n");
+   xprintf("Starting TCP/IP stack\r\n");
 
    error = netInit();
    interface = &netInterface[0];
@@ -234,10 +228,12 @@ static error_t networkStart(void)
    netSetExtIntDriver(interface, &extIntDriver);
 
    netSetMacAddr(interface, &networkContext.macAddr);
+ 
    error = netConfigInterface(interface);
 
-   if (networkContext.useDhcp == TRUE)
-   {
+
+    if (networkContext.useDhcp == TRUE)
+    {
       //Get default settings
       dhcpClientGetDefaultSettings(&dhcpClientSettings);
       //Set the network interface to be configured by DHCP
@@ -246,23 +242,17 @@ static error_t networkStart(void)
       dhcpClientSettings.rapidCommit = FALSE;
 
       //DHCP client initialization
+      LOG_INFO("Initializing DHCP client... ");
       error = dhcpClientInit(&dhcpClientContext, &dhcpClientSettings);
       //Failed to initialize DHCP client?
-      if(error)
-      {
-         //Debug message
-         TRACE_ERROR("Failed to initialize DHCP client!\r\n");
-      }
+      LOG_STATUS(error);
 
       //Start DHCP client
+      LOG_INFO("Starting DHCP client... ");
       error = dhcpClientStart(&dhcpClientContext);
       //Failed to start DHCP client?
-      if(error)
-      {
-         //Debug message
-         TRACE_ERROR("Failed to start DHCP client!\r\n");
-      }
-   }
+      LOG_STATUS(error);
+    }
    else
    {
       //Set IPv4 host address
@@ -284,10 +274,6 @@ static error_t networkStart(void)
          return error;
 
    }
-   //	autoIpGetDefaultSettings(&autoIpSettings);
-   //	autoIpSettings.interface = interface;
-   //	autoIpInit(&autoIpContext, &autoIpSettings);
-   //	autoIpStart(&autoIpContext);
 
 
 #if (MDNS_RESPONDER_SUPPORT == ENABLED)
@@ -297,31 +283,23 @@ static error_t networkStart(void)
    mdnsResponderSettings.interface = &netInterface[0];
 
    //mDNS responder initialization
+   LOG_INFO("Initializing mDNS responder... ");
    error = mdnsResponderInit(&mdnsResponderContext, &mdnsResponderSettings);
    //Failed to initialize mDNS responder?
-   if(error)
-   {
-      //Debug message
-      TRACE_ERROR("Failed to initialize mDNS responder!\r\n");
-   }
+   LOG_STATUS(error);
 
    //Set mDNS hostname
+   LOG_INFO("Setting hostname to \"%s\"... ", pHostname);
    error = mdnsResponderSetHostname(&mdnsResponderContext, pHostname);
    //Any error to report?
-   if(error)
-   {
-      //Debug message
-      TRACE_ERROR("Failed to set hostname!\r\n");
-   }
+   LOG_STATUS(error);
 
    //Start mDNS responder
+   LOG_INFO("Starting mDNS responder... ");
    error = mdnsResponderStart(&mdnsResponderContext);
    //Failed to start mDNS responder?
-   if(error)
-   {
-      //Debug message
-      TRACE_ERROR("Failed to start mDNS responder!\r\n");
-   }
+   LOG_STATUS(error);
+
 #endif
 #if (DNS_SD_SUPPORT == ENABLED)
    //Get default settings
@@ -330,13 +308,10 @@ static error_t networkStart(void)
    dnsSdSettings.interface = &netInterface[0];
 
    //DNS-SD initialization
+   LOG_INFO("Initializing DNS-SD... ");
    error = dnsSdInit(&dnsSdContext, &dnsSdSettings);
    //Failed to initialize DNS-SD?
-   if(error)
-   {
-      //Debug message
-      TRACE_ERROR("Failed to initialize DNS-SD!\r\n");
-   }
+   LOG_STATUS(error);
 
    //Unregister service
    error = dnsSdUnregisterService(&dnsSdContext, "_http._tcp");
@@ -346,14 +321,12 @@ static error_t networkStart(void)
    strcat(name, pHostname);
 
    //Set instance name
+   LOG_INFO("Setting instance name to \"%s\"... ", pName);
    error = dnsSdSetInstanceName(&dnsSdContext, pName);
 
    //Any error to report?
-   if(error)
-   {
-      //Debug message
-      TRACE_ERROR("Failed to set instance name!\r\n");
-   }
+   LOG_STATUS(error);
+
    //Register DNS-SD service
    error = dnsSdRegisterService(&dnsSdContext,
       "_http._tcp",
@@ -371,13 +344,11 @@ static error_t networkStart(void)
       "");
 
    //Start DNS-SD
+   LOG_INFO("Starting DNS-SD... ");
    error = dnsSdStart(&dnsSdContext);
    //Failed to start DNS-SD?
-   if(error)
-   {
-      //Debug message
-      TRACE_ERROR("Failed to start DNS-SD!\r\n");
-   }
+   LOG_STATUS(error);
+   
 #endif
    return NO_ERROR;
 }
@@ -396,7 +367,6 @@ static uint8_t parseIpv4Config(jsmnParserStruct * jsonParser)
 #if (IPV4_SUPPORT == ENABLED)
 
    jsmn_get_bool(jsonParser, "$.ipv4.usedhcp", &networkContext.useDhcp);
-
 
    length = jsmn_get_string(jsonParser, "$.ipv4.address", &ipAddr[0], IP_MAX_LEN);
    if (length ==0 || length > IP_MAX_LEN)
@@ -444,7 +414,6 @@ static uint8_t parseIpv4Config(jsmnParserStruct * jsonParser)
    }
    ipv4StringToAddr(&ipDns1[0], &networkContext.ipv4Dns1);
    ipv4StringToAddr(&ipDns2[0], &networkContext.ipv4Dns2);
-
 
    return error;
 }

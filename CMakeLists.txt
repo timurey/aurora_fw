@@ -51,6 +51,7 @@ ADD_DEFINITIONS(
 	-DHSE_VALUE=25000000
 	-DSTM32F205xx
 	-DUSE_USB_FS
+	-DMCU=${STM32_CHIP}
 )
 
 # Project wide include directories

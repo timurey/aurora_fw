@@ -50,18 +50,19 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "cmsis_os.h"
-#include "blink.h"
-#include "ff_demo.h"
-#include "network.h"
-/* USER CODE BEGIN Includes */     
 
+/* USER CODE BEGIN Includes */     
+#include "blink.h"
+#include "network.h"
+#include "log.h"
 /* USER CODE END Includes */
 
 /* Variables -----------------------------------------------------------------*/
 osThreadId defaultTaskHandle;
 
 /* USER CODE BEGIN Variables */
-
+#define xstr(s) str(s)
+#define str(s) #s
 /* USER CODE END Variables */
 
 /* Function prototypes -------------------------------------------------------*/
@@ -98,18 +99,11 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityHigh, 0, 256);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
-
+  // StartDefaultTask( );
   /* USER CODE BEGIN RTOS_THREADS */
-  osThreadDef(blinkTask, BlinkTask, osPriorityNormal, 0, 128);
-  blinkTaskHandle = osThreadCreate(osThread(blinkTask), NULL);
-
-  osThreadDef(fatfsTask, FatFsTask, osPriorityLow, 0, 128*8);
-  fatfsTaskHandle = osThreadCreate(osThread(fatfsTask), NULL);
-
-  osThreadDef(networkTask, NetworkTask, osPriorityNormal, 0, 128*4);
-  networkTaskHandle = osThreadCreate(osThread(networkTask), NULL);
+ 
     /* USER CODE END RTOS_THREADS */
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
@@ -119,15 +113,30 @@ void MX_FREERTOS_Init(void) {
 /* StartDefaultTask function */
 void StartDefaultTask(void const * argument)
 {
-  /* init code for FATFS */
-  MX_FATFS_Init();
+
 
   /* init code for USB_DEVICE */
   MX_USB_DEVICE_Init();
 
+  LOG_INFO("\r\nFirmware compiled: %s %s\r\n", __DATE__, __TIME__);
+  LOG_INFO("MCU: "PRIfgGreen"%s"PRIfgDefault"\r\n", xstr(MCU));
+  LOG_INFO("System clock: %uHz\r\n", SystemCoreClock);
+  LOG_INFO("Copyright: 2017 aurora.timurey.ru\r\n");
+  /* init code for FATFS */
+  MX_FATFS_Init();
+
   /* USER CODE BEGIN StartDefaultTask */
   (void) argument;
+   osThreadDef(blinkTask, BlinkTask, osPriorityNormal, 0, 128);
+  blinkTaskHandle = osThreadCreate(osThread(blinkTask), NULL);
+
+  // osThreadDef(fatfsTask, FatFsTask, osPriorityLow, 0, 128*8);
+  // fatfsTaskHandle = osThreadCreate(osThread(fatfsTask), NULL);
+
+  osThreadDef(networkTask, NetworkTask, osPriorityNormal, 0, 128*4);
+  networkTaskHandle = osThreadCreate(osThread(networkTask), NULL);
   /* Infinite loop */
+
   for(;;)
   {
     osDelay(1000);

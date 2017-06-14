@@ -47,21 +47,30 @@
   */
 
 #include "fatfs.h"
-
+#include "fs_port.h"
+#include "error.h"
 uint8_t retSD;    /* Return value for SD */
 char SD_Path[4];  /* SD logical drive path */
 
 /* USER CODE BEGIN Variables */
-
+#include "log.h"
 /* USER CODE END Variables */    
 
 void MX_FATFS_Init(void) 
 {
+  error_t error;
   /*## FatFS: Link the SD driver ###########################*/
   retSD = FATFS_LinkDriver(&SD_Driver, SD_Path);
 
   /* USER CODE BEGIN Init */
-  /* additional user code for init */     
+  
+  //Debug message
+  LOG_INFO("Initializing filesystem... ");  
+  
+  error = fsInit(); 
+
+  LOG_STATUS(error);
+
   /* USER CODE END Init */
 }
 
@@ -73,7 +82,7 @@ void MX_FATFS_Init(void)
 DWORD get_fattime(void)
 {
   /* USER CODE BEGIN get_fattime */
-  return 0;
+  return fsGetFattime();
   /* USER CODE END get_fattime */  
 }
 
