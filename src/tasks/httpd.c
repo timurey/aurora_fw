@@ -149,7 +149,7 @@ error_t httpdStart(void)
 //       //Debug message
 //       TRACE_ERROR("Failed to start REST service!\r\n");
 //    }
-//    return error;
+   return error;
 }
 /**
  * @brief CGI callback function

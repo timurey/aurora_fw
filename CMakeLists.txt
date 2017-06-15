@@ -39,7 +39,7 @@ SET(CMAKE_TOOLCHAIN_FILE ../stm32-cmake/cmake/gcc_stm32.cmake)
 PROJECT(Aurora)
 
 # Misc stuff
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.8)
 ENABLE_LANGUAGE(ASM)
 
 # Project wide definitions
@@ -57,39 +57,39 @@ ADD_DEFINITIONS(
 # Project wide include directories
 INCLUDE_DIRECTORIES(
 	
-	# FreeRTOS includes
-	${FREERTOS_INCLUDE_DIRS}
+	# # FreeRTOS includes
+	# ${FREERTOS_INCLUDE_DIRS}
 
-	# USBLib includes
-	${USBLIB_INCLUDE_DIRS}
+	# # USBLib includes
+	# ${USBLIB_INCLUDE_DIRS}
 
-	# STM32cube includes
-	${STM32CUBE_F2_INCLUDE_DIRS}
+	# # STM32cube includes
+	# ${STM32CUBE_F2_INCLUDE_DIRS}
 
-	# ORYX Common
-	${COMMON_INCLUDE_DIRS}
+	# # ORYX Common
+	# ${COMMON_INCLUDE_DIRS}
 
-	# ORYX CycloneTCP
-	${CYCLONETCP_INCLUDE_DIRS}
+	# # ORYX CycloneTCP
+	# ${CYCLONETCP_INCLUDE_DIRS}
 
-	# FatFs
-	${FATFS_INCLUDE_DIRS}
+	# # FatFs
+	# ${FATFS_INCLUDE_DIRS}
 
-	# Jsmn-extras
-	${JSMNEXTRAS_INCLUDE_DIRS}
+	# # Jsmn-extras
+	# ${JSMNEXTRAS_INCLUDE_DIRS}
 
-	# xprintf
-	${XPRINTF_INCLUDE_DIRS}
+	# # xprintf
+	# ${XPRINTF_INCLUDE_DIRS}
 
-	# Linked list
-	${LIST_INCLUDE_DIRS}
+	# # Linked list
+	# ${LIST_INCLUDE_DIRS}
 
-	# Common includes
+	# # Common includes
 	./include
-	${AURORA_INCLUDE_DIRS}
+	# ${AURORA_INCLUDE_DIRS}
 
-	# Common includes
-	${COMMON_INCLUDE_DIRS}
+	# # Common includes
+	# ${COMMON_INCLUDE_DIRS}
 
 )
 
