@@ -12,3 +12,6 @@ build/
 Aurora.hex
 Aurora.elf
 Aurora.bin
+.vscode/.browse.VC.db
+.vscode/.browse.VC.db-shm
+.vscode/.browse.VC.db-wal

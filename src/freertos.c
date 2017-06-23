@@ -53,6 +53,7 @@
 
 /* USER CODE BEGIN Includes */     
 #include "blink.h"
+#include "ff_demo.h"
 #include "network.h"
 #include "log.h"
 /* USER CODE END Includes */
@@ -101,6 +102,9 @@ void MX_FREERTOS_Init(void) {
   /* definition and creation of defaultTask */
   osThreadDef(defaultTask, StartDefaultTask, osPriorityHigh, 0, 256);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+
+  // osThreadDef(fatFsTask, FatFsTask, osPriorityNormal, 0, 128*8);
+  // fatfsTaskHandle = osThreadCreate(osThread(fatFsTask), NULL);
   // StartDefaultTask( );
   /* USER CODE BEGIN RTOS_THREADS */
  

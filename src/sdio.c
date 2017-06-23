@@ -72,7 +72,7 @@ void MX_SDIO_SD_Init(void)
   hsd.Init.ClockPowerSave = SDIO_CLOCK_POWER_SAVE_DISABLE;
   hsd.Init.BusWide = SDIO_BUS_WIDE_1B;
   hsd.Init.HardwareFlowControl = SDIO_HARDWARE_FLOW_CONTROL_DISABLE;
-  hsd.Init.ClockDiv = SDIO_INIT_CLK_DIV;
+  hsd.Init.ClockDiv = 0;
 
 }
 
@@ -87,6 +87,9 @@ void HAL_SD_MspInit(SD_HandleTypeDef* sdHandle)
   /* USER CODE END SDIO_MspInit 0 */
     /* Peripheral clock enable */
     __HAL_RCC_SDIO_CLK_ENABLE();
+    __HAL_RCC_GPIOC_CLK_ENABLE();
+    __HAL_RCC_GPIOD_CLK_ENABLE();
+    __HAL_RCC_DMA2_CLK_ENABLE();
   
     /**SDIO GPIO Configuration    
     PC8     ------> SDIO_D0
@@ -96,6 +99,8 @@ void HAL_SD_MspInit(SD_HandleTypeDef* sdHandle)
     PC12     ------> SDIO_CK
     PD2     ------> SDIO_CMD 
     */
+    /* Set all pins to high output state */
+
     GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11 
                           |GPIO_PIN_12;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -154,6 +159,15 @@ void HAL_SD_MspInit(SD_HandleTypeDef* sdHandle)
 
     __HAL_LINKDMA(sdHandle,hdmatx,hdma_sdio_tx);
 
+    /* SDIO interrupt Init */
+    HAL_NVIC_SetPriority(SDIO_IRQn, 0x07, 0);
+    HAL_NVIC_EnableIRQ(SDIO_IRQn);
+    /* DMA2_Stream3_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 0x08, 0);
+    HAL_NVIC_EnableIRQ(DMA2_Stream3_IRQn);
+    /* DMA2_Stream6_IRQn interrupt configuration */
+    HAL_NVIC_SetPriority(DMA2_Stream6_IRQn, 0x08, 0);
+    HAL_NVIC_EnableIRQ(DMA2_Stream6_IRQn);
   /* USER CODE BEGIN SDIO_MspInit 1 */
 
   /* USER CODE END SDIO_MspInit 1 */

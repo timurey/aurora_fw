@@ -19,8 +19,8 @@ extern USBD_HandleTypeDef hUsbDeviceFS;
 #define RxBufferSize 64
 
 char RxBuffer[RxBufferSize];
-volatile uint readIndex = RxBufferSize;
-volatile uint RxFifoIndex = 0;
+volatile uint32_t readIndex = RxBufferSize;
+volatile uint32_t RxFifoIndex = 0;
 // When using retargetted configurations, the standard write() system call,
 // after a long way inside newlib, finally calls this implementation function.
 
@@ -35,7 +35,7 @@ volatile uint RxFifoIndex = 0;
 // ignored.
 
 ssize_t _write(int fd, const char *buf, size_t nbyte);
-int _read(int fd, char *instring, uint count);
+int _read(int fd, char *instring, uint32_t count);
 uint8_t USB_Receive_FS (uint8_t* Buf, uint32_t *Len);
 
 ssize_t _write(int fd, const char *buf, size_t nbyte)
@@ -98,7 +98,7 @@ ssize_t _write(int fd, const char *buf, size_t nbyte)
  * wrap our down counter the same way the DMA does in circular mode.
  */
 
-int _read(int fd, char *instring, uint count){
+int _read(int fd, char *instring, uint32_t count){
      uint32_t bytesread = 0;
 
      if(count > bytesread){
@@ -137,7 +137,7 @@ uint8_t USB_Receive_FS (uint8_t* Buf, uint32_t *Len)
                RxFifoIndex  = 0;
           }
 
-  return (USBD_OK);
+  return (uint8_t)(USBD_OK);
 }
 
 // ----------------------------------------------------------------------------

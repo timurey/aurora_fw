@@ -47,6 +47,11 @@
   */
 #define BUS_4BITS 1
 
+#define sdRdTimeout 200
+#define sdWrTimeout 5000
+#define sdBsyTimeout 500
+#define sdErTimeout 250
+#define sd_timeout 250 // timeout in ms in the new HAL API
 #ifdef OLD_API
 /* kept to avoid issue when migrating old projects. */
 /* USER CODE BEGIN 0 */
@@ -58,6 +63,12 @@
 /* USER CODE END FirstSection */
 /* Includes ------------------------------------------------------------------*/
 #include "bsp_driver_sd.h"
+#include "log.h"
+#include <string.h>
+#undef LOG_INFO
+#define LOG_INFO(...)
+#undef LOG_STATUS
+#define LOG_STATUS(...) 
 
 /* Extern variables ---------------------------------------------------------*/ 
   
@@ -182,15 +193,59 @@ uint8_t BSP_SD_WriteBlocks(uint32_t *pData, uint32_t WriteAddr, uint32_t NumOfBl
   */
 uint8_t BSP_SD_ReadBlocks_DMA(uint32_t *pData, uint32_t ReadAddr, uint32_t NumOfBlocks)
 {
-  uint8_t sd_state = MSD_OK;
-  
-  /* Read block(s) in DMA transfer mode */
-  if (HAL_SD_ReadBlocks_DMA(&hsd, (uint8_t *)pData, ReadAddr, NumOfBlocks) != HAL_OK)
+  uint8_t aligned = ((uint32_t)pData & 0x3U) == 0;
+  HAL_StatusTypeDef state;
+  HAL_SD_CardStateTypeDef cardState;
+  LOG_INFO(" [BSP_SD_ReadBlocks_DMA] ");
+  if (!aligned)
   {
-    sd_state = MSD_ERROR;
+    state = HAL_SD_ReadBlocks(&hsd, (uint8_t *)pData, ReadAddr, NumOfBlocks, (uint32_t)sd_timeout);
+
+    if (state != HAL_OK)
+    {
+      LOG_STATUS(HAL_ERROR);
+      return 0;
+    }
   }
-  
-  return sd_state; 
+  else
+  {
+    state = HAL_SD_ReadBlocks_DMA(&hsd, (uint8_t *)pData, ReadAddr, NumOfBlocks);
+    if (state != HAL_OK)
+    {
+      LOG_STATUS(HAL_ERROR);
+      return 0;
+    }
+    // We need to block here, until we implement a callback feature
+    uint32_t tickstart = HAL_GetTick();
+    while (hsd.State == HAL_SD_STATE_BUSY)
+    {
+      if ((HAL_GetTick() - tickstart) >= sdRdTimeout * NumOfBlocks)
+      {
+        /* Abort transfer and send return error */
+        HAL_SD_Abort(&hsd);
+
+        LOG_INFO("Timeout on Read, over ");
+        LOG_INFO(PRIu32, sdRdTimeout * NumOfBlocks);
+        LOG_INFO("ms\r\n");
+        return 0;
+      }
+    }
+    if (hsd.State != HAL_SD_STATE_READY)
+    {
+      LOG_STATUS(hsd.State);
+      return 0;
+    }
+    if (__HAL_SD_GET_FLAG(&hsd, SDIO_FLAG_DCRCFAIL))
+    {
+      //return false;
+      LOG_STATUS(SDIO_FLAG_DCRCFAIL);
+      while (1)
+        ; //stay here
+    }
+  }
+  cardState = HAL_SD_GetCardState(&hsd);
+  LOG_STATUS(cardState!=HAL_SD_CARD_TRANSFER);
+  return state;
 }
 
 /* USER CODE BEGIN BeforeWriteDMABlocksSection */

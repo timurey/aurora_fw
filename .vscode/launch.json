@@ -15,18 +15,17 @@
             "moduleLoad": true,
             "exceptions": true
          },
+         "preLaunchTask": null,
          "osx": {
             "MIMode": "gdb",
             "miDebuggerPath":"/opt/local/arm-toolchain/bin/arm-none-eabi-gdb",            
             "setupCommands": [
-                  {"text":"-target-select remote localhost:3333"},
-                  // {"text": "file ${workspaceRoot}/build/Src/Aurora"},
-                  {"text":"-interpreter-exec console \"monitor reset halt\""},
-                  {"text":"-interpreter-exec console \"monitor continue\""}
-                  // {"text":"-interpreter-exec console \"tbreak main\""},
-                  // {"text":"-interpreter-exec console \"monitor reg\""}
+                  {"text":"target remote localhost:3333"},
+                  {"text":"monitor reset halt"},
+                  {"text":"monitor continue"}
                            ],
             "launchCompleteCommand": "exec-continue"
+            // ,"logging": {"engineLogging":true}
             
          }
       }

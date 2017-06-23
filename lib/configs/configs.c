@@ -11,6 +11,7 @@
 
 #include <stdarg.h>
 
+#include "log.h"
 //static jsmn_parser *jSMNparser;
 //static jsmntok_t *jSMNtokens;
 
@@ -41,11 +42,13 @@ error_t read_default(const defaultConfig_t * defaultConfig, tConfigParser parser
 {
    error_t error = NO_ERROR;
 
+   LOG_INFO("Parsing default config:\r\n%s\r\n", defaultConfig->config);
    jsonParser.data = defaultConfig->config;
    jsonParser.lengthOfData = defaultConfig->len;
 
    error =  parser(&jsonParser, CONFIGURE_MODE);
 
+   LOG_STATUS(error);
    jsonParser.data = NULL;
    jsonParser.lengthOfData = 0;
 
@@ -58,31 +61,47 @@ error_t read_config(char * path, tConfigParser parser)
    uint32_t fsize;
    size_t  readed;
    FsFile* file;
+
    if(path == NULL || parser == NULL)
       return ERROR_INVALID_PARAMETER;
 
+   LOG_INFO("Finding config file: %s ... ", path);
    if (!fsFileExists(path))
-      return ERROR_FILE_NOT_FOUND;
-
+   {    
+        LOG_STATUS(ERROR_FILE_NOT_FOUND);
+        return ERROR_FILE_NOT_FOUND;
+   }
+   LOG_STATUS(NO_ERROR);  
+   
+   LOG_INFO("Getting file size... ");
    error = fsGetFileSize(path, &fsize);
-   if(error) return error;
+   LOG_STATUS(error);
 
+
+   LOG_INFO("Filesize is: %"PRIu32, fsize);
    if (!fsize)
       return ERROR_INVALID_FILE_RECORD_SIZE;
 
    data = osAllocMem(fsize);
 
+   LOG_INFO(", allocated at: %"PRIX32"\r\n", data);
    if (!data) return ERROR_OUT_OF_MEMORY;
 
    file = fsOpenFile(path, FS_FILE_MODE_READ);
 
+   LOG_INFO("Opening file ... ");
+   LOG_STATUS(file?0:1);
    if (!file)
    {
       osFreeMem (data);
       return ERROR_FILE_OPENING_FAILED;
 
    }
+
+   LOG_INFO("Reading file ... ");
    error = fsReadFile (file, data, (size_t) fsize, &readed);
+   LOG_STATUS(error);
+
    if (error)
    {
       fsCloseFile(&file);
@@ -90,16 +109,20 @@ error_t read_config(char * path, tConfigParser parser)
       return error;
 
    }
+   LOG_INFO("Parsing config file:\r\n%s\r\n", data);
+
    fsCloseFile(file);
    jsonParser.data = data;
    jsonParser.lengthOfData =readed;
 
    error =  parser(&jsonParser, CONFIGURE_MODE);
 
+   LOG_STATUS(error);
    jsonParser.data = NULL;
    jsonParser.lengthOfData = 0;
    osFreeMem (data);
 
+   LOG_INFO("Freeing allocated memory at : %"PRIX32"\r\n", data);   
    return error;
 }
 
@@ -116,7 +139,7 @@ error_t save_config (char * path, const char* fmt, ...)
    if (!file) 	return ERROR_FILE_OPENING_FAILED;
 
    va_start(ap, fmt);
-   f_vprintf (file, fmt, ap);
+//    f_vprintf (file, fmt, ap);
    f_truncate(file);
    va_end(ap);
 

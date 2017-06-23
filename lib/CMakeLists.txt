@@ -151,6 +151,8 @@ SET(STM32CUBE_F2_SRC
 ADD_LIBRARY(STM32Cube_f2 STATIC ${STM32CUBE_F2_SRC})
 
 target_link_libraries (STM32Cube_f2 LINK_PUBLIC cmsis)
+# target_link_libraries (STM32Cube_f2 LINK_PUBLIC Common) #Adding debugging
+target_link_libraries (STM32Cube_f2 LINK_PUBLIC xprintf)
 
 TARGET_INCLUDE_DIRECTORIES(STM32Cube_f2 PUBLIC
 	${STM32CUBE_F2_SRC_DIR}/STM32F2xx_HAL_Driver/Inc
@@ -553,6 +555,7 @@ ADD_LIBRARY(configs STATIC ${CONFIGS_SRC})
 
 target_link_libraries (configs LINK_PUBLIC Common)
 target_link_libraries (configs LINK_PUBLIC Jsmn_extras)
+target_link_libraries (configs LINK_PUBLIC Fatfs)
 
 TARGET_INCLUDE_DIRECTORIES(configs PUBLIC
 	${CONFIGS_SRC_DIR}

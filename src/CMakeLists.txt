@@ -27,6 +27,7 @@ SET(SOURCE_FILES
 	./tasks/blink.c
 	./tasks/network.c
 	./tasks/httpd.c
+	./tasks/ff_demo.c
 )
 
 INCLUDE_DIRECTORIES(

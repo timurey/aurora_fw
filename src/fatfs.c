@@ -65,10 +65,11 @@ void MX_FATFS_Init(void)
   /* USER CODE BEGIN Init */
   
   //Debug message
-  LOG_INFO("Initializing filesystem... ");  
+  LOG_INFO("Begining initializing filesystem.\r\n");  
   
   error = fsInit(); 
 
+  LOG_INFO("Initializing filesystem... ");  
   LOG_STATUS(error);
 
   /* USER CODE END Init */
