@@ -47,31 +47,27 @@ ssize_t _write(int fd, const char *buf, size_t nbyte)
   case STDOUT_FILENO: /*stdout*/
 
   case STDERR_FILENO:                       /* stderr */
-    timeout = HAL_GetTick() + 500; // 0.5 second timeout
-    while (HAL_GetTick() < timeout)
-    {
-      if (hUsbDeviceFS.dev_state != USBD_STATE_CONFIGURED)
+    // Ignore sending the message if USB is not connected
+    if (hUsbDeviceFS.dev_state != USBD_STATE_CONFIGURED)
       {
-        continue; //We can wait...
+        return -1; 
       }
+    
+    // Transmit the message but no longer than timeout
+    timeout = HAL_GetTick() + 5;
+    while(HAL_GetTick() < timeout)
+    {
       int result = CDC_Transmit_FS((uint8_t *) buf, nbyte);
       if (result == USBD_OK)
       {
         len = nbyte; //result is ok/
         break;
       }
-      if (result == USBD_BUSY)
-      {
-        continue; //USB is busy. We can wait...
-      }
-      if (result == USBD_FAIL)
-      {
-        break; //Error.
-      }
       // save some power!
       //  __WFI();
     }
-    break;
+  break;
+
   default:
     errno = EBADF;
     return -1;
